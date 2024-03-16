@@ -88,6 +88,7 @@ class SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      //onTap should have an actual function call for signing into the database
         onTap: () => {},
         child: Container(
           padding: const EdgeInsets.all(25),
