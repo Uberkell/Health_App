@@ -20,6 +20,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: TipPage(),
+      routes: {
+        '/homepage': (context) => HomePage(),
+        '/loginpage': (context) => LoginPage(),
+        '/tippage': (context) => TipPage(),
+      }
     );
   }
 }
