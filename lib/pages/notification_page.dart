@@ -18,13 +18,28 @@ class _NotificationPageState extends State<NotificationPage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: ElevatedButton(
-            child: const Text('Show notifications'),
-            onPressed: () {
-              NotificationService()
-                  .showNotification(title: 'Sample title', body: 'It works!');
-            },
-          )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                NotificationService().showNotification(
+                  title: 'Sample title',
+                  body: 'It works!',
+                );
+              },
+              child: const Text('Show Notification'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                NotificationService().scheduleRecurringNotification();
+              },
+              child: const Text('Schedule Recurring Notification'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
