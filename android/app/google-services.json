@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:456258888291:android:4273a4b2597e3d52ab8e56",
+        "mobilesdk_app_id": "1:456258888291:android:c1bd919e6bc60571ab8e56",
         "android_client_info": {
-          "package_name": "com.example.IntToWinIt"
+          "package_name": "com.example.int_to_win_it"
         }
       },
       "oauth_client": [],
