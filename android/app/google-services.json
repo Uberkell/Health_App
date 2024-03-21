@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456258888291",
+    "project_id": "inttowinit-database",
+    "storage_bucket": "inttowinit-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456258888291:android:4273a4b2597e3d52ab8e56",
+        "android_client_info": {
+          "package_name": "com.example.IntToWinIt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApJU3vqO0ySaYe38vRyGAwxVF69Ds_i8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

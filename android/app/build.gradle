@@ -22,6 +22,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     namespace "com.example.int_to_win_it"
     compileSdkVersion flutter.compileSdkVersion
@@ -37,7 +39,8 @@ android {
         applicationId "com.example.int_to_win_it"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19
+		multiDexEnabled true
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -54,4 +57,10 @@ android {
 
 flutter {
     source '../..'
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
 }
