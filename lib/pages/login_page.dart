@@ -37,8 +37,11 @@ class LoginPage extends StatelessWidget{
             obscureText: true,
           ),
           SizedBox(height: 50),
+          //sign up button
+          SignUpButton(),
+          SizedBox(height: 30),
           //sign in button
-          SignInButton(),
+          LogInButton(),
         ],
       )
     );
@@ -82,8 +85,8 @@ class TextFieldSignIn extends StatelessWidget{
 }
 
 //sign in button
-class SignInButton extends StatelessWidget {
-  const SignInButton({super.key});
+class LogInButton extends StatelessWidget {
+  const LogInButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +102,7 @@ class SignInButton extends StatelessWidget {
           ),
           child: const Center(
             child: Text(
-                "Sign In",
+                "Log In",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -108,6 +111,34 @@ class SignInButton extends StatelessWidget {
             ),
           ),
         )
+    );
+  }
+}
+class SignUpButton extends StatelessWidget{
+  const SignUpButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => {},
+      child: Container(
+        padding: const EdgeInsets.all(25),
+        margin: const EdgeInsets.symmetric(horizontal: 25),
+        decoration: BoxDecoration(
+          color: Colors.lightBlue,
+          borderRadius: BorderRadius.circular(8)
+        ),
+        child: const Center(
+          child: Text(
+            "Sign Up",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            )
+          ),
+        )
+      ),
     );
   }
 }
