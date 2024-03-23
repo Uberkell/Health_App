@@ -20,11 +20,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SignUpPage(),
+      home: HomePage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
         '/tippage': (context) => TipPage(),
+        '/signuppage': (context) => SignUpPage(),
       }
     );
   }

@@ -11,7 +11,15 @@ class SignUpPage extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            SizedBox(height: 200),
+            //back to prev page button
+            IconButton(
+              padding: EdgeInsets.fromLTRB(0, 0,400, 0),
+              icon: const Icon(Icons.arrow_back),
+              iconSize: 50,
+              onPressed: () => {Navigator.pop(context)},
+              color: Colors.grey,
+            ),
+            SizedBox(height: 100),
             //welcome
             Text(
               'Sign Up',
