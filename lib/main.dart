@@ -3,6 +3,7 @@ import 'pages/login_page.dart';
 import 'pages/home_page.dart';
 import 'pages/tip_page.dart';
 import 'pages/sign_up_page.dart';
+import 'pages/HealthyEating_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,12 +21,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: HomePage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
         '/tippage': (context) => TipPage(),
         '/signuppage': (context) => SignUpPage(),
+        '/healthy_eating_page': (context) => HealthyEatingPage(),
       }
     );
   }

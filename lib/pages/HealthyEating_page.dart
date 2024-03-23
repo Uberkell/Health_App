@@ -35,7 +35,7 @@ class HealthyEatingPage extends StatelessWidget {
                 child: SwitchButton(
                   buttonText: "Healthy Eating Tips/Ideas",
                   onPressed: () {
-                    // Navigate to the next page
+                    Navigator.pushNamed(context, '/tippage');
                   },
                 ),
               ),

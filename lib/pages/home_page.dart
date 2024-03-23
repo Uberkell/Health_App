@@ -37,10 +37,7 @@ class HomePage extends StatelessWidget {
           SwitchButton(
             buttonText: "Healthy Eating",
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HealthyEatingPage()),
-              );
+              Navigator.pushNamed(context, '/healthy_eating_page');
             },
           ),
           SizedBox(height: 50),
