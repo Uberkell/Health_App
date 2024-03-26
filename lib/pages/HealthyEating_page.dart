@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:int_to_win_it/pages/GoodEatingHabits_page.dart';
+import 'package:int_to_win_it/pages/HealthyRecipies_page.dart';
+import 'package:int_to_win_it/pages/MealPlanner_page.dart';
 
 class HealthyEatingPage extends StatelessWidget {
   HealthyEatingPage({Key? key}) : super(key: key);
@@ -44,6 +47,10 @@ class HealthyEatingPage extends StatelessWidget {
                 child: SwitchButton(
                   buttonText: "Meal Planner",
                   onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MealPlannerPage()),
+                    );
                     // Navigate to the next page
                   },
                 ),
@@ -53,6 +60,10 @@ class HealthyEatingPage extends StatelessWidget {
                 child: SwitchButton(
                   buttonText: "Healthy Recipes",
                   onPressed: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HealthyRecipesPage()),
+                    );
                     // Navigate to the next page
                   },
                 ),
@@ -62,7 +73,10 @@ class HealthyEatingPage extends StatelessWidget {
                 child: SwitchButton(
                   buttonText: "Good Eating habits/ benefits",
                   onPressed: () {
-                    // Navigate to the next page
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GoodEatingHabitsPage()),
+                    );// Navigate to the next page
                   },
                 ),
               ),
