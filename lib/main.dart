@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:int_to_win_it/pages/Admin_Page.dart';
 import 'pages/login_page.dart';
 import 'pages/home_page.dart';
 import 'pages/notification_page.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const NotificationPage(title: 'Notification Test'),
+      home: const AdminPage(title: 'Admin Test'),
     );
   }
 }

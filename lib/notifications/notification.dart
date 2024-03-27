@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
@@ -36,7 +38,6 @@ class NotificationService {
   }
 
   Future<void> scheduleRecurringNotification() async {
-    const int minutesInterval = 1;
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails('repeating_channel_id',
@@ -49,5 +50,40 @@ class NotificationService {
         'This is a recurring notification', RepeatInterval.everyMinute, platformChannelSpecifics);
   }
 
+  Future<void> sendMassNotificationWithTips(List<String> tips) async {
+    for (int i = 0; i < tips.length; i++) {
+      await showNotification(
+        title: 'Healthy Eating Tip',
+        body: tips[i],
+      );
+    }
+  }
+  Future<void> scheduleWaterDrinkingReminder() async {
+    const int waterReminderId = 0;
+    const String waterReminderTitle = 'Drink Water';
+    const String waterReminderBody = 'It\'s time to drink water! Stay hydrated.';
 
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'Water Reminder',
+      'Reminds users to drink water regularly',
+      importance: Importance.high,
+      priority: Priority.high,
+      sound: RawResourceAndroidNotificationSound('reminder_sound'),
+      enableLights: true,
+      color: Color.fromARGB(255, 0, 153, 204),
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    // Schedule a notification to remind users to drink water every hour
+    await notificationsPlugin.periodicallyShow(
+      waterReminderId,
+      waterReminderTitle,
+      waterReminderBody,
+      RepeatInterval.hourly,
+      platformChannelSpecifics,
+    );
+  }
 }
