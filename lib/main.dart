@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:int_to_win_it/pages/Admin_Page.dart';
 import 'pages/login_page.dart';
 import 'pages/home_page.dart';
-import 'pages/notification_page.dart';
-import 'notifications/notification.dart';
+import 'pages/tip_page.dart';
+import 'pages/sign_up_page.dart';
+import 'pages/HealthyEating_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'pages/tracker_new_entry_page.dart';
 
-Future<void> main() async {
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -24,7 +26,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AdminPage(title: 'Admin Test'),
+      home: SignUpPage(),
+      routes: {
+        '/homepage': (context) => HomePage(),
+        '/loginpage': (context) => LoginPage(),
+        '/tippage': (context) => TipPage(),
+        '/signuppage': (context) => SignUpPage(),
+        '/healthy_eating_page': (context) => HealthyEatingPage(),
+        '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
+      }
     );
   }
 }
