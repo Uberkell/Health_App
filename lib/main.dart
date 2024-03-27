@@ -5,6 +5,7 @@ import 'pages/tip_page.dart';
 import 'pages/sign_up_page.dart';
 import 'pages/HealthyEating_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'pages/tracker_new_entry_page.dart';
 
 
 void main() async {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/tippage': (context) => TipPage(),
         '/signuppage': (context) => SignUpPage(),
         '/healthy_eating_page': (context) => HealthyEatingPage(),
+        '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
       }
     );
   }
