@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class LoginPage extends StatelessWidget{
@@ -42,7 +43,10 @@ class LoginPage extends StatelessWidget{
           SignUpButton(),
           SizedBox(height: 30),
           //sign in button
-          LogInButton(),
+          LogInButton(
+            usernameController: usernameController,
+            passwordController: passwordController,
+          ),
         ],
       )
     );
@@ -87,13 +91,25 @@ class TextFieldSignIn extends StatelessWidget{
 
 //sign in button
 class LogInButton extends StatelessWidget {
-  const LogInButton({super.key});
+  final TextEditingController usernameController;
+  final TextEditingController passwordController;
+
+  const LogInButton({
+    Key? key,
+    required this.usernameController,
+    required this.passwordController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       //onTap should have an actual function call for signing into the database
-        onTap: () => {},
+        onTap: () {
+          logIn(
+            usernameController.text.trim(),
+            passwordController.text.trim(),
+          );
+        },
         child: Container(
           padding: const EdgeInsets.all(25),
           margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -113,6 +129,13 @@ class LogInButton extends StatelessWidget {
           ),
         )
     );
+  }
+  Future<void> logIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password,);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
 class SignUpButton extends StatelessWidget{
