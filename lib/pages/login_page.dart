@@ -104,12 +104,29 @@ class LogInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       //onTap should have an actual function call for signing into the database
-        onTap: () {
-          logIn(
-            usernameController.text.trim(),
-            passwordController.text.trim(),
-          );
-        },
+        onTap: () async {
+          try {
+            await FirebaseAuth.instance.signInWithEmailAndPassword(email: usernameController.text.trim(), password: passwordController.text.trim())
+                .then((userCredential) {
+              if (userCredential.user != null) {
+                // Authentication was successful
+                User user = userCredential.user!;
+
+                Navigator.pushNamed(context, '/homepage');
+              }
+              else {
+                // Authentication failed, will Handle authentication failure (e.g., display error message)
+              }
+            })
+                .catchError((error) {
+              // Handle any errors that occurred during the authentication process
+              print("Error: $error");
+            });
+          } catch (e) {
+            print(e.toString());
+          }
+        }
+        ,
         child: Container(
           padding: const EdgeInsets.all(25),
           margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -129,13 +146,6 @@ class LogInButton extends StatelessWidget {
           ),
         )
     );
-  }
-  Future<void> logIn(String email, String password) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password,);
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }
 class SignUpButton extends StatelessWidget{
