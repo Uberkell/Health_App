@@ -8,16 +8,32 @@ class TipPage extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: List.generate(
-            50,
-              (index) => ListTile(
-                title: Text('Item ${index + 1}'),
-              )
-          )
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.grey),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              iconSize: 40,
+            ),
+            title: Row(
+              children: [
+                SizedBox(width: 108,),
+                Text(
+                  'Tips',
+                  style: TextStyle(fontSize: 30),
+                )
+              ],
+            )
         ),
-      )
+        body: Column(
+          children: [
+
+          ],
+        )
+
     );
   }
 }
