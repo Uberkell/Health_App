@@ -106,7 +106,6 @@ class CreateAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      //onTap should have an actual function call for signing into the database
         onTap: () {
           signUp(
             usernameController.text.trim(),
