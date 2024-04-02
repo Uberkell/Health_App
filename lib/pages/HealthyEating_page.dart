@@ -36,7 +36,7 @@ class HealthyEatingPage extends StatelessWidget {
               SizedBox(height: 50),
               Expanded(
                 child: SwitchButton(
-                  buttonText: "Healthy Eating Tips/Ideas",
+                  buttonText: "Food Pictures/Camera",
                   onPressed: () {
                     Navigator.pushNamed(context, '/tippage');
                   },
