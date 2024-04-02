@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../notifications/notification.dart';
 
 class NotificationPage extends StatefulWidget {
-  const NotificationPage({super.key, required this.title});
+  const NotificationPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -11,6 +11,8 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  bool isRecurringNotificationsEnabled = false; // Add this line
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +32,25 @@ class _NotificationPageState extends State<NotificationPage> {
               },
               child: const Text('Show Notification'),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                NotificationService().scheduleRecurringNotification();
-              },
-              child: const Text('Schedule Recurring Notification'),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Schedule Recurring Notifications'),
+                Switch(
+                  value: isRecurringNotificationsEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      isRecurringNotificationsEnabled = value;
+                      if (value) {
+                        NotificationService().scheduleRecurringNotification(true); // Pass true to enable recurring notifications
+                      } else {
+                        NotificationService().cancelRecurringNotification();
+                      }
+                    });
+                  },
+                ),
+              ],
             ),
           ],
         ),

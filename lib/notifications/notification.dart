@@ -1,10 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
   FlutterLocalNotificationsPlugin();
+
+  bool isRecurringNotificationsEnabled = false;
 
   Future<void> initNotification() async {
     AndroidInitializationSettings initializationSettingsAndroid =
@@ -37,17 +38,28 @@ class NotificationService {
         id, title, body, notificationDetails());
   }
 
-  Future<void> scheduleRecurringNotification() async {
+  Future<void> scheduleRecurringNotification(bool isEnabled) async {
+    if (isEnabled) {
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails('repeating_channel_id',
+          'Repeating channel name');
 
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('repeating_channel_id',
-        'Repeating channel name');
+      const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
 
-    const NotificationDetails platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics);
+      await notificationsPlugin.periodicallyShow(
+          1,
+          'Recurring Title',
+          'This is a recurring notification',
+          RepeatInterval.everyMinute,
+          platformChannelSpecifics);
+    } else {
+      await cancelRecurringNotification();
+    }
+  }
 
-    await notificationsPlugin.periodicallyShow(1, 'Recurring Title',
-        'This is a recurring notification', RepeatInterval.everyMinute, platformChannelSpecifics);
+  Future<void> cancelRecurringNotification() async {
+    await notificationsPlugin.cancel(1); // Change the ID if needed
   }
 
   Future<void> sendMassNotificationWithTips(List<String> tips) async {
@@ -58,6 +70,7 @@ class NotificationService {
       );
     }
   }
+
   Future<void> scheduleWaterDrinkingReminder() async {
     const int waterReminderId = 0;
     const String waterReminderTitle = 'Drink Water';
