@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:int_to_win_it/pages/tracker_home_page.dart';
 
 class TrackerNewEntryPage extends StatelessWidget{
   TrackerNewEntryPage({Key? key}) : super(key: key);
@@ -8,7 +7,7 @@ class TrackerNewEntryPage extends StatelessWidget{
   Widget build(BuildContext context){
     ElevatedButton addFood = ElevatedButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TrackerHomePage()));
+        Navigator.pop(context);
       },
       child: const Text("Add Food"),
     );
@@ -25,21 +24,22 @@ class TrackerNewEntryPage extends StatelessWidget{
           padding: EdgeInsets.all(15),
           child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(8),
                   child: foodName),
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(12),
                   child: calConsumed),
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(8),
                   child: waterConsumed),
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(8),
                   child: proteinConsumed),
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(8),
                   child: sodiumConsumed),
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(8),
                   child: fruitsConsumed),
-              Padding(padding: EdgeInsets.all(10),
+              Padding(padding: EdgeInsets.all(8),
                   child: vegsConsumed),
-              Padding(padding: EdgeInsets.all(10),
+              Container(),
+              Padding(padding: EdgeInsets.all(8),
                   child: addFood)
             ],
           ),
