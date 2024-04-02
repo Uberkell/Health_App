@@ -6,7 +6,7 @@ import 'pages/sign_up_page.dart';
 import 'pages/HealthyEating_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'pages/tracker_new_entry_page.dart';
-
+import 'pages/tracker_home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: HomePage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/signuppage': (context) => SignUpPage(),
         '/healthy_eating_page': (context) => HealthyEatingPage(),
         '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
+        '/tracker_home_page': (context) => TrackerHomePage(),
       }
     );
   }
