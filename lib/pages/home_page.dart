@@ -50,7 +50,14 @@ class HomePage extends StatelessWidget {
               Navigator.pushNamed(context, '/tracker_home_page');
               },
           ),
-          SizedBox(height: 220),
+          SizedBox(height:40 ),
+          SwitchButton(
+            buttonText: "Notification Page",
+            onTap: () {
+              Navigator.pushNamed(context, '/notificationpage');
+            },
+          ),
+          SizedBox(height: 150),
           SwitchButton(
             buttonText: "Sign Out",
             onTap:() async {
