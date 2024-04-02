@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:int_to_win_it/pages/HealthyEating_page.dart';
+import 'package:int_to_win_it/pages/tracker_new_entry_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -41,7 +44,20 @@ class HomePage extends StatelessWidget {
             },
           ),
           SizedBox(height: 50),
-          SwitchButton(buttonText: "Tracking Journal"),
+          SwitchButton(
+            buttonText: "Tracking Journal",
+            onTap: () {
+              Navigator.pushNamed(context, '/tracker_new_entry_page');
+              },
+          ),
+          SizedBox(height: 220),
+          SwitchButton(
+            buttonText: "Sign Out",
+            onTap:() async {
+              Navigator.pushNamed(context, '/loginpage');
+                await FirebaseAuth.instance.signOut();
+            },
+          ),
         ],
       ),
     );

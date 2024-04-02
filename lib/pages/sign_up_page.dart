@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
@@ -43,7 +44,10 @@ class SignUpPage extends StatelessWidget {
               obscureText: true,
             ),
             SizedBox(height: 50),
-            CreateAccountButton(),
+            CreateAccountButton(
+              usernameController: usernameController,
+              passwordController: passwordController,
+            ),
           ],
         )
     );
@@ -61,6 +65,9 @@ class TextFieldSignIn extends StatelessWidget{
     required this.hintText,
     required this.obscureText,
   });
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +93,25 @@ class TextFieldSignIn extends StatelessWidget{
 }
 
 class CreateAccountButton extends StatelessWidget {
-  const CreateAccountButton({super.key});
+  final TextEditingController usernameController;
+  final TextEditingController passwordController;
+
+  const CreateAccountButton({
+    Key? key,
+    required this.usernameController,
+    required this.passwordController,
+  }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      //onTap should have an actual function call for signing into the database
-        onTap: () => {},
+        onTap: () {
+          signUp(
+            usernameController.text.trim(),
+            passwordController.text.trim(),
+          );
+        },
         child: Container(
           padding: const EdgeInsets.all(25),
           margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -112,5 +131,19 @@ class CreateAccountButton extends StatelessWidget {
           ),
         )
     );
+  }
+  Future<void> signUp(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Optionally, you can navigate to another page after successful signup
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AnotherPage()));
+    } catch (e) {
+      print(e.toString());
+      // Handle error, for example, show error message
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up failed')));
+    }
   }
 }

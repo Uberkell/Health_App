@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LoginPage extends StatelessWidget{
   final TextEditingController usernameController = TextEditingController();
@@ -41,7 +43,10 @@ class LoginPage extends StatelessWidget{
           SignUpButton(),
           SizedBox(height: 30),
           //sign in button
-          LogInButton(),
+          LogInButton(
+            usernameController: usernameController,
+            passwordController: passwordController,
+          ),
         ],
       )
     );
@@ -86,13 +91,42 @@ class TextFieldSignIn extends StatelessWidget{
 
 //sign in button
 class LogInButton extends StatelessWidget {
-  const LogInButton({super.key});
+  final TextEditingController usernameController;
+  final TextEditingController passwordController;
+
+  const LogInButton({
+    Key? key,
+    required this.usernameController,
+    required this.passwordController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       //onTap should have an actual function call for signing into the database
-        onTap: () => {},
+        onTap: () async {
+          try {
+            await FirebaseAuth.instance.signInWithEmailAndPassword(email: usernameController.text.trim(), password: passwordController.text.trim())
+                .then((userCredential) {
+              if (userCredential.user != null) {
+                // Authentication was successful
+                User user = userCredential.user!;
+
+                Navigator.pushNamed(context, '/homepage');
+              }
+              else {
+                // Authentication failed, will Handle authentication failure (e.g., display error message)
+              }
+            })
+                .catchError((error) {
+              // Handle any errors that occurred during the authentication process
+              print("Error: $error");
+            });
+          } catch (e) {
+            print(e.toString());
+          }
+        }
+        ,
         child: Container(
           padding: const EdgeInsets.all(25),
           margin: const EdgeInsets.symmetric(horizontal: 25),
