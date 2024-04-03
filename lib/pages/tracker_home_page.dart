@@ -28,7 +28,16 @@ class TrackerHomePage extends StatelessWidget {
                       decoration: const InputDecoration(
                         labelText: 'Water Drank in Cups',
                       ),
-                    )
+                    ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      },
+                    child: const Text("Enter")),
                     ]
                 ),
               ),
@@ -39,7 +48,6 @@ class TrackerHomePage extends StatelessWidget {
       },
       child: const Text("Add Water"),
     );
-    // need to add submit button
 
     return Scaffold(
       appBar: AppBar(
@@ -50,9 +58,12 @@ class TrackerHomePage extends StatelessWidget {
             ListTile(
                 title: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [addFood, addWater])),
-            const ListTile(leading: Text("Apple")) // will link to database for already added food for the day
+            ListTile(
+                leading: Text("Apple")) // will link to database for already added food for the day
           ]
       )
     );
+
+
   }
 }

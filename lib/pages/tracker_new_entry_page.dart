@@ -29,8 +29,6 @@ class TrackerNewEntryPage extends StatelessWidget{
               Padding(padding: EdgeInsets.all(12),
                   child: calConsumed),
               Padding(padding: EdgeInsets.all(8),
-                  child: waterConsumed),
-              Padding(padding: EdgeInsets.all(8),
                   child: proteinConsumed),
               Padding(padding: EdgeInsets.all(8),
                   child: sodiumConsumed),
@@ -58,10 +56,6 @@ class TrackerNewEntryPage extends StatelessWidget{
         onChanged: (value) {
         //text input
       } */
-  );
-  TextField waterConsumed = const TextField(
-      decoration: InputDecoration(labelText: "Water in Cups Consumed Today"),
-      keyboardType: TextInputType.number
   );
   TextField proteinConsumed = const TextField(
       decoration: InputDecoration(labelText: "Protein in Grams Consumed Today"),
