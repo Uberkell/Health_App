@@ -36,7 +36,7 @@ class HealthyEatingPage extends StatelessWidget {
               SizedBox(height: 50),
               Expanded(
                 child: SwitchButton(
-                  buttonText: "Healthy Eating Tips/Ideas",
+                  buttonText: "Food Pictures/Camera",
                   onPressed: () {
                     Navigator.pushNamed(context, '/tippage');
                   },
@@ -49,7 +49,7 @@ class HealthyEatingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MealPlannerPage()),
+                        MaterialPageRoute(builder: (context) => MealPlannerPage(username: 'intowinit')),
                     );
                     // Navigate to the next page
                   },
@@ -62,7 +62,7 @@ class HealthyEatingPage extends StatelessWidget {
                   onPressed: () {
                       Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HealthyRecipesPage()),
+                      MaterialPageRoute(builder: (context) => HealthyRecipePage()),
                     );
                     // Navigate to the next page
                   },
