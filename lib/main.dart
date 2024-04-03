@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/login_page.dart';
+import 'pages/notification_page.dart';
 import 'pages/home_page.dart';
 import 'pages/tip_page.dart';
 import 'pages/sign_up_page.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: LoginPage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/signuppage': (context) => SignUpPage(),
         '/healthy_eating_page': (context) => HealthyEatingPage(),
         '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
+        '/notificationpage': (context) => NotificationPage(title: 'Notification Page'),
       }
     );
   }
