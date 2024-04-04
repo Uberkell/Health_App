@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:int_to_win_it/pages/HealthyRecipies_page.dart';
+import 'package:int_to_win_it/pages/MealPlanner_page.dart';
 import 'pages/login_page.dart';
 import 'pages/home_page.dart';
 import 'pages/tip_page.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: MealPlannerPage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
