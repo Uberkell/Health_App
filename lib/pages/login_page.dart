@@ -111,7 +111,6 @@ class LogInButton extends StatelessWidget {
               if (userCredential.user != null) {
                 // Authentication was successful
                 User user = userCredential.user!;
-
                 Navigator.pushNamed(context, '/homepage');
               }
               else {

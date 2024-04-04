@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:int_to_win_it/pages/HealthyEating_page.dart';
-import 'package:int_to_win_it/pages/tracker_new_entry_page.dart';
+import 'package:int_to_win_it/pages/tracker_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -47,10 +47,17 @@ class HomePage extends StatelessWidget {
           SwitchButton(
             buttonText: "Tracking Journal",
             onTap: () {
-              Navigator.pushNamed(context, '/tracker_new_entry_page');
+              Navigator.pushNamed(context, '/tracker_home_page');
               },
           ),
-          SizedBox(height: 220),
+          SizedBox(height:40 ),
+          SwitchButton(
+            buttonText: "Notification Page",
+            onTap: () {
+              Navigator.pushNamed(context, '/notificationpage');
+            },
+          ),
+          SizedBox(height: 150),
           SwitchButton(
             buttonText: "Sign Out",
             onTap:() async {
