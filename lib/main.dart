@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:int_to_win_it/pages/HealthyRecipies_page.dart';
+import 'package:int_to_win_it/pages/MealPlanner_page.dart';
 import 'pages/login_page.dart';
 import 'pages/notification_page.dart';
 import 'pages/home_page.dart';
@@ -7,7 +9,7 @@ import 'pages/sign_up_page.dart';
 import 'pages/HealthyEating_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'pages/tracker_new_entry_page.dart';
-
+import 'pages/tracker_home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/healthy_eating_page': (context) => HealthyEatingPage(),
         '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
         '/notificationpage': (context) => NotificationPage(title: 'Notification Page'),
+        '/tracker_home_page': (context) => TrackerHomePage(),
       }
     );
   }

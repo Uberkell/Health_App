@@ -49,7 +49,7 @@ class HealthyEatingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MealPlannerPage(username: 'intowinit')),
+                        MaterialPageRoute(builder: (context) => MealPlannerPage()),
                     );
                     // Navigate to the next page
                   },
