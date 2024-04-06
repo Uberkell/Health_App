@@ -146,6 +146,7 @@ class CreateAccountButton extends StatelessWidget {
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AnotherPage()));
     } catch (e) {
       print(e.toString());
+      print("rip");
       // Handle error, for example, show error message
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up failed')));
     }

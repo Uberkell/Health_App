@@ -111,6 +111,9 @@ class LogInButton extends StatelessWidget {
               if (userCredential.user != null) {
                 // Authentication was successful
                 User user = userCredential.user!;
+                print(user.uid);
+                print("adfkjladsj;klf dklasjkldjaskjfdkkdasfj dkl;s jkfldasj fjdsklj fd;sakl fjkdlsajfk l;jdaskl; jfkl;dsaj kfl;dsakl jfdsjf");
+
                 Navigator.pushNamed(context, '/homepage');
               }
               else {
