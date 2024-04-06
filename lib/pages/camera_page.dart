@@ -16,7 +16,7 @@ class _TipPageState extends State<TipPage>{
     try{
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if(image == null) return;
-
+      print("bello");
       final imageTemporary = File(image.path);
       setState(() => this.image = imageTemporary);
     } on PlatformException catch (e) {
@@ -61,7 +61,7 @@ class _TipPageState extends State<TipPage>{
         ),
         body: Column(
           children: [
-
+            image != null ? Image.file(image!) : SizedBox(),
           ],
         )
 

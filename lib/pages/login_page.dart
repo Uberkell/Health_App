@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class LoginPage extends StatelessWidget{
@@ -111,8 +112,11 @@ class LogInButton extends StatelessWidget {
               if (userCredential.user != null) {
                 // Authentication was successful
                 User user = userCredential.user!;
-                print(user.uid);
-                print("adfkjladsj;klf dklasjkldjaskjfdkkdasfj dkl;s jkfldasj fjdsklj fd;sakl fjkdlsajfk l;jdaskl; jfkl;dsaj kfl;dsakl jfdsjf");
+
+                print("usfsdhsjkg hfdsjkg hfdjkhgjk dfhsgjk hfdjsklg hjfkdshg jkfdshjkgl hdfsjkgh jkfdsh");
+                FirebaseFirestore.instance.collection('Users').doc(user.uid).collection('photos').add({
+                  'description': 'Sample photo'
+                });
 
                 Navigator.pushNamed(context, '/homepage');
               }
