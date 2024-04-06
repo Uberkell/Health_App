@@ -113,10 +113,8 @@ class LogInButton extends StatelessWidget {
                 // Authentication was successful
                 User user = userCredential.user!;
 
-                print("usfsdhsjkg hfdsjkg hfdjkhgjk dfhsgjk hfdjsklg hjfkdshg jkfdshjkgl hdfsjkgh jkfdsh");
-                FirebaseFirestore.instance.collection('Users').doc(user.uid).collection('photos').add({
-                  'description': 'Sample photo'
-                });
+                print(user.uid.toString());
+
 
                 Navigator.pushNamed(context, '/homepage');
               }

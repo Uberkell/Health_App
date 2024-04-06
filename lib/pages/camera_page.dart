@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class TipPage extends StatefulWidget{
   @override
@@ -12,14 +16,40 @@ class TipPage extends StatefulWidget{
 class _TipPageState extends State<TipPage>{
   File? image;
 
+  // Future retrievePhotos() async {
+  //
+  // }
+
+  Future uploadImage() async{
+    try {
+      final storageRef = FirebaseStorage.instance;
+
+      final filePath = 'uploads/${DateTime
+          .now()
+          .millisecondsSinceEpoch}';
+
+      Reference ref = storageRef.ref(filePath);
+      UploadTask uploadTask = ref.putFile(image!);
+      await uploadTask;
+
+      final userid = FirebaseAuth.instance.currentUser?.uid;
+
+      FirebaseFirestore.instance.collection('Users').doc(userid).collection('photos').add({
+        'url' : filePath,
+      });
+      print("it work");
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
   Future useCamera() async {
     try{
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if(image == null) return;
-      print("bello");
       final imageTemporary = File(image.path);
       setState(() => this.image = imageTemporary);
-    } on PlatformException catch (e) {
+      uploadImage();    } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
