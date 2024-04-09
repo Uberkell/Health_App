@@ -57,14 +57,17 @@ class HomePage extends StatelessWidget {
               Navigator.pushNamed(context, '/notificationpage');
             },
           ),
-          SizedBox(height: 150),
-          SwitchButton(
+          SizedBox(height: 140),
+          Expanded(
+          child: SwitchButton(
             buttonText: "Sign Out",
             onTap:() async {
               Navigator.pushNamed(context, '/loginpage');
                 await FirebaseAuth.instance.signOut();
             },
           ),
+          ),
+          SizedBox(height: 20),
         ],
       ),
     );
