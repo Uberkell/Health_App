@@ -17,18 +17,54 @@ class MealPlannerPage extends StatefulWidget {
 class _MealPlannerPageState extends State<MealPlannerPage> {
   TextEditingController _caloriesController = TextEditingController();
   List<DietOption> _dietOptions = [
-    DietOption(name: 'I do not have specific diet plans', description: 'Food meal plans will be shown without any excluded ingredients'),
-    DietOption(name: 'Gluten Free', description: 'Eliminating gluten means avoiding wheat, barley, rye, and other gluten-containing grains and foods made from them (or that may have been cross contaminated).'),
-    DietOption(name: 'Ketogenic', description: 'The keto diet is based more on the ratio of fat, protein, and carbs in the diet rather than specific ingredients. Generally speaking, high fat, protein-rich foods are acceptable and high carbohydrate foods are not. The formula we use is 55-80% fat content, 15-35% protein content, and under 10% of carbohydrates.'),
-    DietOption(name: 'Vegetarian', description: 'No ingredients may contain meat or meat by-products, such as bones or gelatin.'),
-    DietOption(name: 'Lacto-Vegetarian', description: 'All ingredients must be vegetarian and none of the ingredients can be or contain egg.'),
-    DietOption(name: 'Ovo-Vegetarian', description: 'All ingredients must be vegetarian and none of the ingredients can be or contain dairy.'),
-    DietOption(name: 'Vegan', description: 'No ingredients may contain meat or meat by-products, such as bones or gelatin, nor may they contain eggs, dairy, or honey.'),
-    DietOption(name: 'Pescetarian', description: 'Everything is allowed except meat and meat by-products - some pescetarians eat eggs and dairy, some do not.'),
-    DietOption(name: 'Paleo', description: 'Allowed ingredients include meat (especially grass fed), fish, eggs, vegetables, some oils (e.g. coconut and olive oil), and in smaller quantities, fruit, nuts, and sweet potatoes. We also allow honey and maple syrup (popular in Paleo desserts, but strict Paleo followers may disagree). Ingredients not allowed include legumes (e.g. beans and lentils), grains, dairy, refined sugar, and processed foods.'),
-    DietOption(name: 'Primal', description: 'Very similar to Paleo, except dairy is allowed - think raw and full fat milk, butter, ghee, etc.'),
-    DietOption(name: 'Low FODMAP', description: 'FODMAP stands for "fermentable oligo-, di-, mono-saccharides and polyols". Our ontology knows which foods are considered high in these types of carbohydrates (e.g. legumes, wheat, and dairy products)'),
-    DietOption(name: 'Whole30', description: 'Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites.'),
+    DietOption(
+        name: 'No Specific Diet',
+        description:
+        'For individuals who do not want to have any specific dietary restrictions or guidelines'),
+    DietOption(
+        name: 'Gluten Free',
+        description:
+        'Eliminating gluten means avoiding wheat, barley, rye, and other gluten-containing grains and foods made from them (or that may have been cross contaminated).'),
+    DietOption(
+        name: 'Ketogenic',
+        description:
+        'The keto diet is based more on the ratio of fat, protein, and carbs in the diet rather than specific ingredients. Generally speaking, high fat, protein-rich foods are acceptable and high carbohydrate foods are not. The formula we use is 55-80% fat content, 15-35% protein content, and under 10% of carbohydrates.'),
+    DietOption(
+        name: 'Vegetarian',
+        description:
+        'No ingredients may contain meat or meat by-products, such as bones or gelatin.'),
+    DietOption(
+        name: 'Lacto-Vegetarian',
+        description:
+        'All ingredients must be vegetarian and none of the ingredients can be or contain egg.'),
+    DietOption(
+        name: 'Ovo-Vegetarian',
+        description:
+        'All ingredients must be vegetarian and none of the ingredients can be or contain dairy.'),
+    DietOption(
+        name: 'Vegan',
+        description:
+        'No ingredients may contain meat or meat by-products, such as bones or gelatin, nor may they contain eggs, dairy, or honey.'),
+    DietOption(
+        name: 'Pescetarian',
+        description:
+        'Everything is allowed except meat and meat by-products - some pescetarians eat eggs and dairy, some do not.'),
+    DietOption(
+        name: 'Paleo',
+        description:
+        'Allowed ingredients include meat (especially grass fed), fish, eggs, vegetables, some oils (e.g. coconut and olive oil), and in smaller quantities, fruit, nuts, and sweet potatoes. We also allow honey and maple syrup (popular in Paleo desserts, but strict Paleo followers may disagree). Ingredients not allowed include legumes (e.g. beans and lentils), grains, dairy, refined sugar, and processed foods.'),
+    DietOption(
+        name: 'Primal',
+        description:
+        'Very similar to Paleo, except dairy is allowed - think raw and full fat milk, butter, ghee, etc.'),
+    DietOption(
+        name: 'Low FODMAP',
+        description:
+        'FODMAP stands for "fermentable oligo-, di-, mono-saccharides and polyols". Our ontology knows which foods are considered high in these types of carbohydrates (e.g. legumes, wheat, and dairy products)'),
+    DietOption(
+        name: 'Whole30',
+        description:
+        'Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites.'),
   ];
   String _selectedDietOption = '';
   Map<String, dynamic> _mealPlan = {};
@@ -37,7 +73,7 @@ class _MealPlannerPageState extends State<MealPlannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meal Planner'),
+        title: Text('Meal Planner', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: SingleChildScrollView(
@@ -49,7 +85,7 @@ class _MealPlannerPageState extends State<MealPlannerPage> {
               controller: _caloriesController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Enter target calories',
+                labelText: 'Enter target calories per day',
               ),
             ),
             SizedBox(height: 20.0),
@@ -95,7 +131,7 @@ class _MealPlannerPageState extends State<MealPlannerPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        '$day:',
+                        '${day.toUpperCase()}:',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -104,13 +140,34 @@ class _MealPlannerPageState extends State<MealPlannerPage> {
                       SizedBox(height: 10.0),
                       Column(
                         children: _mealPlan[day]['meals'].map<Widget>((meal) {
-                          return ListTile(
-                            title: Text(meal['title']),
+                          Color? backgroundColor;
+                          if (meal.containsKey('type')) {
+                            if (meal['type'] == 'breakfast') {
+                              backgroundColor = Colors.green.shade100;
+                            } else if (meal['type'] == 'lunch') {
+                              backgroundColor = Colors.blue.shade100;
+                            } else if (meal['type'] == 'dinner') {
+                              backgroundColor = Colors.orange.shade100;
+                            }
+                          }
+
+                          return Card(
+                            color: backgroundColor,
+                            child: ListTile(
+                              title: Text(meal['title']),
+                            ),
                           );
                         }).toList(),
                       ),
                       SizedBox(height: 20.0),
-                      Text('Calories: ${_mealPlan[day]['nutrients']['calories']}, Protein: ${_mealPlan[day]['nutrients']['protein']}, Fat: ${_mealPlan[day]['nutrients']['fat']}, Carbohydrates: ${_mealPlan[day]['nutrients']['carbohydrates']}'),
+                      Container(
+                        padding: EdgeInsets.all(10.0),
+                        color: Colors.grey.shade200,
+                        child: Text(
+                          'Calories: ${_mealPlan[day]['nutrients']['calories']}, Protein: ${_mealPlan[day]['nutrients']['protein']}, Fat: ${_mealPlan[day]['nutrients']['fat']}, Carbohydrates: ${_mealPlan[day]['nutrients']['carbohydrates']}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       SizedBox(height: 10.0,)
                     ],
                   );
@@ -130,10 +187,9 @@ class _MealPlannerPageState extends State<MealPlannerPage> {
         'https://api.spoonacular.com/mealplanner/generate?apiKey=$apiKey&timeFrame=week&targetCalories=$targetCalories';
     var final_url;
 
-    if(dietOption == 'I do not have specific diet plans'){
+    if (dietOption == 'No Specific Diet') {
       final_url = url_no_option;
-    }
-    else{
+    } else {
       final_url = url;
     }
 
