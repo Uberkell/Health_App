@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:int_to_win_it/pages/Graph_Page.dart';
 import 'package:int_to_win_it/pages/HealthyRecipies_page.dart';
 import 'package:int_to_win_it/pages/MealPlanner_page.dart';
 import 'pages/login_page.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: GraphTest(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
         '/notificationpage': (context) => NotificationPage(title: 'Notification Page'),
         '/tracker_home_page': (context) => TrackerHomePage(),
+        '/Graph_Page': (context) => GraphTest(),
       }
     );
   }
