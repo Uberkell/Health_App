@@ -157,7 +157,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         'sodium': sodiumController.text,
                         'fruit': fruitController.text,
                         'vegetables': vegController.text,
-                        'water': waterController.text,
+                        //'water': waterController.text,
                       });
 
                       message = 'Entry sent successfully';
