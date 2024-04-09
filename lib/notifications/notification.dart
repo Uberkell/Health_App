@@ -1,13 +1,36 @@
 import 'dart:ui';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
-  bool isRecurringNotificationsEnabled = false;
+  static bool? _isRecurringNotificationsEnabled;
+
+  // Getter for isRecurringNotificationsEnabled
+  static bool? get isRecurringNotificationsEnabled => _isRecurringNotificationsEnabled;
+
+  // Setter for isRecurringNotificationsEnabled
+  static set isRecurringNotificationsEnabled(bool? value) {
+    _isRecurringNotificationsEnabled = value;
+    _saveIsRecurringNotificationsEnabled(value);
+  }
+
+  static Future<void> _saveIsRecurringNotificationsEnabled(bool? value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isRecurringNotificationsEnabled', value ?? false);
+  }
+
+  static Future<void> _loadIsRecurringNotificationsEnabled() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isRecurringNotificationsEnabled = prefs.getBool('isRecurringNotificationsEnabled');
+  }
+
 
   Future<void> initNotification() async {
+    await _loadIsRecurringNotificationsEnabled();
+
     AndroidInitializationSettings initializationSettingsAndroid =
     const AndroidInitializationSettings('banana');
 
@@ -95,7 +118,7 @@ class NotificationService {
       waterReminderId,
       waterReminderTitle,
       waterReminderBody,
-      RepeatInterval.hourly,
+      RepeatInterval.everyMinute,
       platformChannelSpecifics,
     );
   }

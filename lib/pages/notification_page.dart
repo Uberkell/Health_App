@@ -11,7 +11,9 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  bool isRecurringNotificationsEnabled = false; // Add this line
+  // Initialize isRecurringNotificationsEnabled with the stored value or false if not set
+  bool isRecurringNotificationsEnabled =
+      NotificationService.isRecurringNotificationsEnabled ?? false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,9 @@ class _NotificationPageState extends State<NotificationPage> {
                       } else {
                         NotificationService().cancelRecurringNotification();
                       }
+                      // Store the value of isRecurringNotificationsEnabled
+                      NotificationService.isRecurringNotificationsEnabled =
+                          value;
                     });
                   },
                 ),
@@ -58,3 +63,4 @@ class _NotificationPageState extends State<NotificationPage> {
     );
   }
 }
+
