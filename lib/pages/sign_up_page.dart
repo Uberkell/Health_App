@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -134,14 +135,18 @@ class CreateAccountButton extends StatelessWidget {
   }
   Future<void> signUp(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      if (userCredential != null) {
+        FirebaseFirestore.instance.collection('Users').doc((userCredential.user?.uid).toString()).set({});
+      }
       // Optionally, you can navigate to another page after successful signup
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AnotherPage()));
     } catch (e) {
       print(e.toString());
+      print("rip");
       // Handle error, for example, show error message
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up failed')));
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class LoginPage extends StatelessWidget{
@@ -111,6 +112,9 @@ class LogInButton extends StatelessWidget {
               if (userCredential.user != null) {
                 // Authentication was successful
                 User user = userCredential.user!;
+
+                print(user.uid.toString());
+
 
                 Navigator.pushNamed(context, '/homepage');
               }
