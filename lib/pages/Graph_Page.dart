@@ -43,14 +43,19 @@ class LineChartWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: charts.TimeSeriesChart(
-        seriesList,
-        animate: true,
-        dateTimeFactory: const charts.LocalDateTimeFactory(),
+      child: Container(
+        height: 300, // height adjustment
+        width: double.infinity, // Width adjustment
+        child: charts.TimeSeriesChart(
+          seriesList,
+          animate: true,
+          dateTimeFactory: const charts.LocalDateTimeFactory(),
+        ),
       ),
     );
   }
 }
+
 
 class MyData {
   final DateTime timestamp;
