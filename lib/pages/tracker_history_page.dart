@@ -1,30 +1,18 @@
-// this is where the tracking journal button will display past entries
-/*
 import 'package:flutter/material.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TrackerHistoryPage extends StatelessWidget {
-  TrackerHistoryPage({Key? key}) : super(key: key);
+  const TrackerHistoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Text calsConsumed = new Text(
-      labelText: "Calories Consumed"
-    );
-    Text waterConsumed = new Text(
-        labelText: "Water Consumed"
-    );
-    Text proteinConsumed = new Text(
-        labelText: "Protein Consumed"
-    );
-    Text sodiumConsumed = new Text(
-        labelText: "Sodium Consumed"
-    );
-    Text fruitsConsumed = new Text(
-        labelText: "Fruits Consumed"
-    );
-    Text vegsConsumed = new Text(
-        labelText: "Vegetables Consumed"
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("What did you eat today?"),
+        ),
+        body: Text("History") //AddData()
     );
   }
 }
-*/

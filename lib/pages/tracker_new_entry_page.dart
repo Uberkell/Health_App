@@ -1,78 +1,182 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class TrackerNewEntryPage extends StatelessWidget{
+class TrackerNewEntryPage extends StatelessWidget {
   TrackerNewEntryPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
-    ElevatedButton addFood = ElevatedButton(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: const Text("Add Food"),
-    );
-    // current problem: this is just a temporary action since it opens a new page instead
-    // which causes a problem when entering multiple foods where the user has to back arrow
-    // out of every page created between the two to return to the home page
-    // also since this hasn't been attached to the database yet, it cannot store or send information
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("What did you eat today?"),
-      ),
-        body: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.all(8),
-                  child: foodName),
-              Padding(padding: EdgeInsets.all(12),
-                  child: calConsumed),
-              Padding(padding: EdgeInsets.all(8),
-                  child: proteinConsumed),
-              Padding(padding: EdgeInsets.all(8),
-                  child: sodiumConsumed),
-              Padding(padding: EdgeInsets.all(8),
-                  child: fruitsConsumed),
-              Padding(padding: EdgeInsets.all(8),
-                  child: vegsConsumed),
-              Container(),
-              Padding(padding: EdgeInsets.all(8),
-                  child: addFood)
-            ],
-          ),
-        )
+        appBar: AppBar(
+          title: const Text("What did you eat today?"),
+        ),
+        body: Scaffold(body: MyCustomForm())
     );
   }
+}
 
-  TextField foodName = const TextField(
-      decoration: InputDecoration(labelText: "Name of Food"),
-      keyboardType: TextInputType.number
-  );
-  TextField calConsumed = const TextField(
-    decoration: InputDecoration(labelText: "Calories Consumed Today"),
-    keyboardType: TextInputType.number,
-    /* This is where the functionality will be added for filling out the form
-        onChanged: (value) {
-        //text input
-      } */
-  );
-  TextField proteinConsumed = const TextField(
-      decoration: InputDecoration(labelText: "Protein in Grams Consumed Today"),
-      keyboardType: TextInputType.number
-  );
-  TextField sodiumConsumed = const TextField(
-      decoration: InputDecoration(labelText: "Sodium in Grams Consumed Today"),
-      keyboardType: TextInputType.number
-  );
-  TextField fruitsConsumed = const TextField(
-      decoration: InputDecoration(labelText: "Servings of Fruit Consumed Today"),
-      keyboardType: TextInputType.number
-  );
-  TextField vegsConsumed = const TextField(
-      decoration: InputDecoration(labelText: "Servings of Vegetables Consumed Today"),
-      keyboardType: TextInputType.number
-  );
+class MyCustomForm extends StatefulWidget {
+  const MyCustomForm({super.key});
 
+  @override
+  MyCustomFormState createState() {
+    return MyCustomFormState();
+  }
+}
 
+class MyCustomFormState extends State<MyCustomForm> {
+  // Create a global key that uniquely identifies the Form widget
+  final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final calsController = TextEditingController();
+  final proteinController = TextEditingController();
+  final vegController = TextEditingController();
+  final fruitController = TextEditingController();
+  final sodiumController = TextEditingController();
+  final waterController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    nameController.dispose();
+    calsController.dispose();
+    proteinController.dispose();
+    sodiumController.dispose();
+    vegController.dispose();
+    fruitController.dispose();
+    waterController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above.
+    return Form(
+      key: _formKey,
+
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(labelText: "Name of Food"),
+                keyboardType: TextInputType.text,
+                controller: nameController,
+              )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                decoration: InputDecoration(labelText: "Calories Consumed Today"),
+                keyboardType: TextInputType.number,
+                controller: calsController,
+              /*onChanged: (value) {};*/
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(labelText: "Protein in Grams Consumed Today"),
+                keyboardType: TextInputType.number,
+                controller: proteinController,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(labelText: "Sodium in Grams Consumed Today"),
+                keyboardType: TextInputType.number,
+                controller: sodiumController,),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(labelText: "Servings of Fruit Consumed Today"),
+                keyboardType: TextInputType.number,
+                controller: fruitController,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(labelText: "Servings of Vegetables Consumed Today"),
+                keyboardType: TextInputType.number,
+                controller: vegController,),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 15),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: () async {
+                  // Validate returns true if the form is valid, or false otherwise.
+                  if (_formKey.currentState!.validate()) {
+                    String message;
+                    try {
+                      // Get a reference to the `food` collection
+                      final collection = FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser?.uid).collection('food').doc(nameController.text);
+
+                      // Write the server's timestamp and the user's feedback
+                      await collection.set({
+                        'calories': calsController.text,
+                        'protein': proteinController.text,
+                        'sodium': sodiumController.text,
+                        'fruit': fruitController.text,
+                        'vegetables': vegController.text,
+                        //'water': waterController.text,
+                      });
+
+                      message = 'Entry sent successfully';
+                    } catch (e) {
+                      message = 'Error when sending entry';
+                    }
+
+                    // Show a snackbar with the result
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(message)));
+                    Navigator.pop(context);
+                  }
+
+                },
+                child: const Text('Submit'),
+        ),
+      ),
+    ]
+      )
+    );
+  }
 }
