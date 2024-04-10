@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/signuppage': (context) => SignUpPage(),
         '/healthy_eating_page': (context) => HealthyEatingPage(),
         '/tracker_new_entry_page': (context) => TrackerNewEntryPage(),
-        '/notificationpage': (context) => NotificationPage(title: 'Notification Page'),
+        '/notificationpage': (context) => NotificationPage(),
         '/tracker_home_page': (context) => TrackerHomePage(),
         '/Graph_Page': (context) => GraphTest(),
       }

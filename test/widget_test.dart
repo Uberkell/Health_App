@@ -1,30 +1,47 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:int_to_win_it/main.dart';
+import 'package:int_to_win_it/pages/notification_page.dart'; // Adjust import path based on your project structure
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('NotificationPage Widget Tests', () {
+    testWidgets('Widget renders correctly', (WidgetTester tester) async {
+      // Build our widget and trigger a frame
+      await tester.pumpWidget(const MaterialApp(
+        home: NotificationPage(),
+      ));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // Verify that the text 'Show Notification' is present
+      expect(find.text('Show Notification'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      // Verify that the switch for recurring notifications is present
+      expect(find.byType(Switch), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // Verify that the button for activating water drinking reminder is present
+      expect(find.text('Activate Water Drinking Reminder'), findsOneWidget);
+    });
+
+    testWidgets('Toggling recurring notifications switch', (WidgetTester tester) async {
+      // Build our widget
+      await tester.pumpWidget(const MaterialApp(
+        home: NotificationPage(),
+      ));
+
+      // Find the switch widget
+      final switchFinder = find.byType(Switch);
+
+      // Toggle the switch to enable recurring notifications
+      await tester.tap(switchFinder);
+      await tester.pump();
+
+      // Verify that the switch is toggled and recurring notifications are enabled
+      expect(tester.widget<Switch>(switchFinder).value, isTrue);
+
+      // Toggle the switch to disable recurring notifications
+      await tester.tap(switchFinder);
+      await tester.pump();
+
+      // Verify that the switch is toggled and recurring notifications are disabled
+      expect(tester.widget<Switch>(switchFinder).value, isFalse);
+    });
   });
 }
