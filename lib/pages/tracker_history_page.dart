@@ -1,4 +1,5 @@
 // this is where the tracking journal button will display past entries
+/*
 import 'package:flutter/material.dart';
 
 class TrackerHistoryPage extends StatelessWidget {
@@ -26,3 +27,4 @@ class TrackerHistoryPage extends StatelessWidget {
     );
   }
 }
+*/
