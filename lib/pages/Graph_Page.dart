@@ -24,17 +24,17 @@ class LineChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<MyData> data = [
-      MyData(DateTime(2022, 1, 1), 10),
-      MyData(DateTime(2022, 1, 2), 20),
-      MyData(DateTime(2022, 1, 3), 15),
-      MyData(DateTime(2022, 1, 4), 25),
-      MyData(DateTime(2022, 1, 5), 30),
+      MyData(DateTime(2024, 4, 1), 10),
+      MyData(DateTime(2024, 4, 2), 20),
+      MyData(DateTime(2024, 4, 3), 15),
+      MyData(DateTime(2024, 4, 4), 25),
+      MyData(DateTime(2024, 4, 5), 30),
     ];
 
     final List<charts.Series<MyData, DateTime>> seriesList = [
       charts.Series<MyData, DateTime>(
         id: 'Data',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
         domainFn: (MyData data, _) => data.timestamp,
         measureFn: (MyData data, _) => data.value,
         data: data,

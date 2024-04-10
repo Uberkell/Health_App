@@ -14,7 +14,8 @@ class LoginPage extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
+      body: SingleChildScrollView(
+      child: Column(
         children: [
           SizedBox(height: 200),
           //welcome
@@ -49,6 +50,7 @@ class LoginPage extends StatelessWidget{
             passwordController: passwordController,
           ),
         ],
+      )
       )
     );
   }
