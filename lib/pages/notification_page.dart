@@ -10,16 +10,26 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   bool isRecurringNotificationsEnabled = false;
+  bool isWaterReminderEnabled = false; // Added
 
   @override
   void initState() {
     super.initState();
     _loadIsRecurringNotificationsEnabled();
+    _loadIsWaterReminderEnabled(); // Added
   }
 
   Future<void> _loadIsRecurringNotificationsEnabled() async {
     setState(() {
-      isRecurringNotificationsEnabled = NotificationService.isRecurringNotificationsEnabled ?? false;
+      isRecurringNotificationsEnabled =
+          NotificationService.isRecurringNotificationsEnabled ?? false;
+    });
+  }
+
+  Future<void> _loadIsWaterReminderEnabled() async {
+    setState(() {
+      isWaterReminderEnabled =
+          NotificationService.isWaterReminderEnabled ?? false;
     });
   }
 
@@ -52,9 +62,17 @@ class _NotificationPageState extends State<NotificationPage> {
               fontSize: 30,
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 20),
           Text(
             'Recurring Notifications: ${isRecurringNotificationsEnabled ? 'Enabled' : 'Disabled'}',
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Water Drinking Reminder: ${isWaterReminderEnabled ? 'Enabled' : 'Disabled'}',
             style: const TextStyle(
               color: Colors.black,
               fontSize: 20,
@@ -71,15 +89,26 @@ class _NotificationPageState extends State<NotificationPage> {
                 } else {
                   NotificationService.cancelRecurringNotification();
                 }
-                NotificationService.isRecurringNotificationsEnabled = isRecurringNotificationsEnabled;
+                NotificationService.isRecurringNotificationsEnabled =
+                    isRecurringNotificationsEnabled;
               });
             },
           ),
           const SizedBox(height: 20),
           SwitchButton(
             buttonText: "Activate Water Drinking Reminder",
+            // Toggle the water reminder when the switch is pressed
             onTap: () {
-              NotificationService().scheduleWaterDrinkingReminder();
+              setState(() {
+                isWaterReminderEnabled = !isWaterReminderEnabled;
+                if (isWaterReminderEnabled) {
+                  NotificationService().scheduleWaterDrinkingReminder(true);
+                } else {
+                  NotificationService().cancelWaterDrinkingReminder();
+                }
+                NotificationService.isWaterReminderEnabled =
+                    isWaterReminderEnabled;
+              });
             },
           ),
           const SizedBox(height: 20),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:int_to_win_it/pages/Graph_Page.dart';
 import 'package:int_to_win_it/pages/HealthyRecipies_page.dart';
 import 'package:int_to_win_it/pages/MealPlanner_page.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'notifications/notification.dart';
 import 'pages/login_page.dart';
 import 'pages/notification_page.dart';
 import 'pages/home_page.dart';
@@ -15,8 +17,11 @@ import 'pages/tracker_home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -30,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: GraphTest(),
+      home: HomePage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LoginPage(),
@@ -44,6 +49,8 @@ class MyApp extends StatelessWidget {
       }
     );
   }
+  
+  
 }
 
 

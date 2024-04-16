@@ -1,5 +1,6 @@
-import 'dart:ui';
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,21 +9,34 @@ class NotificationService {
   FlutterLocalNotificationsPlugin();
 
   static bool? _isRecurringNotificationsEnabled;
+  static bool? _isWaterReminderEnabled; // Added
 
-  // Getter for isRecurringNotificationsEnabled
+  // Getter
   static bool? get isRecurringNotificationsEnabled =>
       _isRecurringNotificationsEnabled;
 
-  // Setter for isRecurringNotificationsEnabled
+  static bool? get isWaterReminderEnabled => _isWaterReminderEnabled;
+
+
+  // Setter
   static set isRecurringNotificationsEnabled(bool? value) {
     _isRecurringNotificationsEnabled = value;
     _saveIsRecurringNotificationsEnabled(value);
   }
 
-  static Future<void> _saveIsRecurringNotificationsEnabled(
-      bool? value) async {
+  static set isWaterReminderEnabled(bool? value) {
+    _isWaterReminderEnabled = value;
+    _saveIsWaterReminderEnabled(value);
+  }
+
+  static Future<void> _saveIsRecurringNotificationsEnabled(bool? value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isRecurringNotificationsEnabled', value ?? false);
+  }
+
+  static Future<void> _saveIsWaterReminderEnabled(bool? value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isWaterReminderEnabled', value ?? false);
   }
 
   static Future<void> _loadIsRecurringNotificationsEnabled() async {
@@ -31,8 +45,14 @@ class NotificationService {
         prefs.getBool('isRecurringNotificationsEnabled');
   }
 
+  static Future<void> _loadIsWaterReminderEnabled() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isWaterReminderEnabled = prefs.getBool('isWaterReminderEnabled');
+  }
+
   Future<void> initNotification() async {
     await _loadIsRecurringNotificationsEnabled();
+    await _loadIsWaterReminderEnabled();
 
     AndroidInitializationSettings initializationSettingsAndroid =
     const AndroidInitializationSettings('banana');
@@ -76,71 +96,88 @@ class NotificationService {
     "Listen to your body and eat when you're hungry, stop when you're full."
   ];
 
+  static String _getRandomTip() {
+    final Random random = Random();
+    return healthyEatingTips[random.nextInt(healthyEatingTips.length)];
+  }
+
   Future<void> scheduleRecurringNotification(bool isEnabled) async {
     if (isEnabled) {
+      const int recurringNotificationId = 1;
+      const String recurringNotificationTitle = 'Healthy Eating Tip';
+      final String tip = _getRandomTip();
+      final String recurringNotificationBody = 'Today\'s tip: $tip';
+
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails('repeating_channel_id', 'Repeating channel name');
+      AndroidNotificationDetails(
+        'Recurring Notification',
+        'Delivers daily healthy eating tips',
+        importance: Importance.high,
+        priority: Priority.high,
+      );
 
       const NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
 
-      final Random random = Random();
-
-      // Pick a random tip from the list
-      final int index = random.nextInt(healthyEatingTips.length);
-      final String randomTip = healthyEatingTips[index];
-
       await notificationsPlugin.periodicallyShow(
-        1,
-        'Healthy Eating Tip',
-        randomTip,
-        RepeatInterval.everyMinute,
+        recurringNotificationId,
+        recurringNotificationTitle,
+        recurringNotificationBody,
+        RepeatInterval.everyMinute, // Show every minute
         platformChannelSpecifics,
       );
+
+      // Set the recurring notification as enabled after it's successfully scheduled
+      isRecurringNotificationsEnabled = true;
     } else {
       await cancelRecurringNotification();
     }
+
+    // Save the state of the recurring notification in shared preferences
+    _saveIsRecurringNotificationsEnabled(isRecurringNotificationsEnabled);
   }
+
 
   static Future<void> cancelRecurringNotification() async {
-    await notificationsPlugin.cancel(1); // Change the ID if needed
+    await notificationsPlugin.cancel(1);
   }
 
-  Future<void> sendMassNotificationWithTips(List<String> tips) async {
-    for (int i = 0; i < tips.length; i++) {
-      await showNotification(
-        title: 'Healthy Eating Tip',
-        body: tips[i],
+  Future<void> scheduleWaterDrinkingReminder(bool isEnabled) async {
+    if (isEnabled) {
+      const int waterReminderId = 2;
+      const String waterReminderTitle = 'Drink Water';
+      const String waterReminderBody = 'It\'s time to drink water! Stay hydrated.';
+
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+        'Water Reminder',
+        'Reminds users to drink water regularly',
+        importance: Importance.high,
+        priority: Priority.high,
       );
+
+      const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+
+      await notificationsPlugin.periodicallyShow(
+        waterReminderId,
+        waterReminderTitle,
+        waterReminderBody,
+        RepeatInterval.everyMinute, // Adjust interval as needed
+        platformChannelSpecifics,
+      );
+
+      // Set the water reminder as enabled after it's successfully scheduled
+      isWaterReminderEnabled = true;
+    } else {
+      await cancelWaterDrinkingReminder();
     }
+
+    // Save the state of the water reminder in shared preferences
+    _saveIsWaterReminderEnabled(isWaterReminderEnabled);
   }
 
-  Future<void> scheduleWaterDrinkingReminder() async {
-    const int waterReminderId = 2;
-    const String waterReminderTitle = 'Drink Water';
-    const String waterReminderBody = 'It\'s time to drink water! Stay hydrated.';
-
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
-      'Water Reminder',
-      'Reminds users to drink water regularly',
-      importance: Importance.high,
-      priority: Priority.high,
-      sound: RawResourceAndroidNotificationSound('reminder_sound'),
-      enableLights: true,
-      color: Color.fromARGB(255, 0, 153, 204),
-    );
-
-    const NotificationDetails platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    // Schedule a notification to remind users to drink water every hour
-    await notificationsPlugin.periodicallyShow(
-      waterReminderId,
-      waterReminderTitle,
-      waterReminderBody,
-      RepeatInterval.everyMinute,
-      platformChannelSpecifics,
-    );
+  Future<void> cancelWaterDrinkingReminder() async {
+    await notificationsPlugin.cancel(2); // Cancel the water drinking reminder
   }
 }
