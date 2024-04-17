@@ -74,7 +74,7 @@ class _MealPlannerPageState extends State<MealPlannerPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Meal Planner', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),

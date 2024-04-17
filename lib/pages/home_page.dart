@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
               fontSize: 50,
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 50),
           SwitchButton(
             buttonText: "Healthy Eating",
             onTap: () {
@@ -50,14 +50,14 @@ class HomePage extends StatelessWidget {
               Navigator.pushNamed(context, '/tracker_home_page');
               },
           ),
-          SizedBox(height:40 ),
+          SizedBox(height:50 ),
           SwitchButton(
             buttonText: "Notification Page",
             onTap: () {
               Navigator.pushNamed(context, '/notificationpage');
             },
           ),
-          SizedBox(height: 140),
+          SizedBox(height: 110),
           Expanded(
           child: SwitchButton(
             buttonText: "Sign Out",
@@ -92,7 +92,7 @@ class SwitchButton extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(

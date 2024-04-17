@@ -13,7 +13,7 @@ class TrackerHomePage extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => TrackerNewEntryPage()));
       },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.red),
+        backgroundColor: MaterialStateProperty.all(Colors.green),
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
       child: const Text("Add Food"),
@@ -37,7 +37,7 @@ class TrackerHomePage extends StatelessWidget {
                         ),
                           ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Colors.red),
+                                backgroundColor: MaterialStateProperty.all(Colors.green),
                                 foregroundColor: MaterialStateProperty.all(Colors.white),
                               ),
                               onPressed: () {
@@ -53,7 +53,7 @@ class TrackerHomePage extends StatelessWidget {
         );
       },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.red),
+        backgroundColor: MaterialStateProperty.all(Colors.green),
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
       child: const Text("Add Water"),
@@ -63,7 +63,7 @@ class TrackerHomePage extends StatelessWidget {
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => TrackerHistoryPage()));
       },
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.green,
       foregroundColor: Colors.white,
       label: const Text("See Past History"),
     );
@@ -91,7 +91,7 @@ class TrackerHomePage extends StatelessWidget {
                           onChanged: null),
                           ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Colors.red),
+                                backgroundColor: MaterialStateProperty.all(Colors.green),
                                 foregroundColor: MaterialStateProperty.all(Colors.white),
                               ),
                               onPressed: () {
@@ -107,7 +107,7 @@ class TrackerHomePage extends StatelessWidget {
         );
       },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.red),
+        backgroundColor: MaterialStateProperty.all(Colors.green),
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
       child: const Text("Set Goals"),

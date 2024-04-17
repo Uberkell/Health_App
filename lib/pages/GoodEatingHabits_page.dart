@@ -62,7 +62,7 @@ class GoodEatingHabitsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Videos: Healthy Eating Habits', style: TextStyle(fontWeight: FontWeight.bold),),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green,
       ),
       body: Stack(
         children: [

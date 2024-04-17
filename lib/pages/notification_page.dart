@@ -50,7 +50,7 @@ class _NotificationPageState extends State<NotificationPage> {
               Icon(
                 Icons.notifications,
                 size: 100,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ],
           ),
@@ -120,7 +120,7 @@ class _NotificationPageState extends State<NotificationPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.green,
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -159,7 +159,7 @@ class SwitchButton extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
