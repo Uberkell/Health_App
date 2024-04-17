@@ -240,7 +240,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     final collection = FirebaseFirestore.instance
                         .collection('Users')
                         .doc(FirebaseAuth.instance.currentUser?.uid)
-                        .collection('food')
+                        .collection(todayDate())
                         .doc(nameController.text);
 
                     // Write the server's timestamp and the user's feedback
@@ -267,6 +267,13 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
         ]));
+  }
+
+  String todayDate(){
+    DateTime today = DateTime.now();
+    String dateStr = "${today.month}-${today.day}-${today.year}";
+
+    return dateStr;
   }
 
   String convertToGrams(String oldValue, String oldUnit){
