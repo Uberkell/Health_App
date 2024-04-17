@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:int_to_win_it/pages/tracker_new_entry_page.dart';
 import 'package:int_to_win_it/pages/tracker_history_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TrackerHomePage extends StatelessWidget {
   const TrackerHomePage({Key? key}) : super(key: key);
@@ -19,6 +21,16 @@ class TrackerHomePage extends StatelessWidget {
       child: const Text("Add Food"),
     );
 
+    String todayDate(){
+      DateTime today = DateTime.now();
+      String dateStr = "${today.month}-${today.day}-${today.year}";
+
+      return dateStr;
+    }
+
+    TextEditingController waterController = TextEditingController();
+    TextEditingController unitController = TextEditingController();
+
     ElevatedButton addWater = ElevatedButton(
       onPressed: () {
         showDialog(context: context,
@@ -31,6 +43,7 @@ class TrackerHomePage extends StatelessWidget {
                   child: Form(
                     child: Column(
                         children: [TextFormField(
+                          controller: waterController,
                           decoration: const InputDecoration(
                             labelText: 'Water Drank in Cups',
                           ),
@@ -40,9 +53,23 @@ class TrackerHomePage extends StatelessWidget {
                                 backgroundColor: MaterialStateProperty.all(Colors.red),
                                 foregroundColor: MaterialStateProperty.all(Colors.white),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
+                                String message;
+                                try {
+                                  final collection = FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser?.uid).collection(todayDate()).doc("water");
+                                  await collection.set({
+                                    'waterDrank': waterController.text,
+                                    'units': unitController.text,
+                                  }
+                                  );
+                                  message = 'Entry sent successfully';
+                                } catch (e) {
+                                  message = 'Error when sending entry';
+                                }
+                                // Show a snackbar with the result
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
                                 Navigator.pop(context);
-                              },
+                                },
                               child: const Text("Enter")),
                         ]
                     ),
