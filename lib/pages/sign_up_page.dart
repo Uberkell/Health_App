@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget{
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final String hintText = 'Password';
+  bool obscureText = true;
 
-  SignUpPage({Key? key}) : super(key: key);
+  void setStateWrapper(){
+    setState((){
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +33,7 @@ class SignUpPage extends StatelessWidget {
                 Navigator.pop(context);
               },
               icon: Icon(Icons.arrow_back),
-              color: Colors.red,
+              color: Colors.green,
               iconSize: 50,
             ),
           ),
@@ -43,16 +54,42 @@ class SignUpPage extends StatelessWidget {
                   ),
                   ),
                   SizedBox(height: 50),
-                  TextFieldSignIn(
+                  TextFieldEmail(
                     controller: usernameController,
-                    hintText: 'Username',
+                    hintText: 'Email',
                     obscureText: false,
                   ),
                   SizedBox(height: 20), // Reduced the height for better spacing
-                  TextFieldSignIn(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      controller: passwordController,
+                      obscureText: obscureText,
+                      ///h h h h h  h h
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400),
+                        ),
+                        fillColor: Colors.grey.shade200,
+                        filled: true,
+                        hintText: hintText,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscureText ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            // Toggle the value of obscureText
+                            setState(() {
+                              obscureText = !obscureText;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 20), // Reduced the height for better spacing
                   CreateAccountButton(
@@ -69,12 +106,12 @@ class SignUpPage extends StatelessWidget {
   }
 }
 
-class TextFieldSignIn extends StatelessWidget {
+class TextFieldEmail extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
 
-  const TextFieldSignIn({
+  const TextFieldEmail({
     Key? key,
     required this.controller,
     required this.hintText,
@@ -88,7 +125,9 @@ class TextFieldSignIn extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        ///h h h h h  h h
         decoration: InputDecoration(
+          prefixIcon: Icon(Icons.email),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
@@ -128,7 +167,7 @@ class CreateAccountButton extends StatelessWidget {
         padding: const EdgeInsets.all(15), // Reduced padding for better appearance
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center( // Centering the text
@@ -156,6 +195,7 @@ class CreateAccountButton extends StatelessWidget {
         // Optionally, you can navigate to another page after successful signup
         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AnotherPage()));
       }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Success')));
     } catch (e) {
       print(e.toString());
       // Handle error, for example, show error message
