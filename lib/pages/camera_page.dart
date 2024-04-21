@@ -107,10 +107,11 @@ class _TipPageState extends State<TipPage>{
   Widget build(BuildContext context){
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.green,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.grey),
+              color: Colors.black,
+              icon: Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -185,12 +186,12 @@ class CircularImageWithBorder extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         border: Border(
-          top: BorderSide(width: 1, color: Colors.grey),
-          bottom: BorderSide(width: 8, color: Colors.grey),
-          left: BorderSide(width: 8, color: Colors.grey),
-          right: BorderSide(width: 8, color: Colors.grey),
+          top: BorderSide(width: 1, color: Colors.green),
+          bottom: BorderSide(width: 8, color: Colors.green),
+          left: BorderSide(width: 8, color: Colors.green),
+          right: BorderSide(width: 8, color: Colors.green),
         ),
-        color: Colors.grey,
+        color: Colors.green,
       ),
       child: Column(
         children: [
