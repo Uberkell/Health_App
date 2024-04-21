@@ -3,12 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class LoginPage extends StatelessWidget{
+class LoginPage extends StatefulWidget{
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage>{
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginPage({super.key});
-
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context){
@@ -28,17 +32,42 @@ class LoginPage extends StatelessWidget{
           ),
           SizedBox(height: 50),
           //username textfield
-          TextFieldSignIn(
+          TextFieldUsername(
             controller: usernameController,
             hintText: 'Username',
             obscureText: false,
           ),
           SizedBox(height: 50),
           //password textfield
-          TextFieldSignIn(
-            controller: passwordController,
-            hintText: 'Password',
-            obscureText: true,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: TextField(
+              controller: passwordController,
+              obscureText: obscureText,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.lock),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                fillColor: Colors.grey.shade200,
+                filled: true,
+                hintText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscureText ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    // Toggle the value of obscureText
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                ),
+              ),
+            )
           ),
           SizedBox(height: 50),
           //sign up button
@@ -57,12 +86,12 @@ class LoginPage extends StatelessWidget{
 }
 
 //textfields
-class TextFieldSignIn extends StatelessWidget{
+class TextFieldUsername extends StatelessWidget{
   final controller;
   final String hintText;
   final bool obscureText;
 
-  const TextFieldSignIn({
+  const TextFieldUsername({
     super.key,
     required this.controller,
     required this.hintText,
@@ -77,6 +106,7 @@ class TextFieldSignIn extends StatelessWidget{
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          prefixIcon: Icon(Icons.email),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
@@ -121,10 +151,13 @@ class LogInButton extends StatelessWidget {
                 Navigator.pushNamed(context, '/homepage');
               }
               else {
+
                 // Authentication failed, will Handle authentication failure (e.g., display error message)
               }
             })
                 .catchError((error) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed')));
+
               // Handle any errors that occurred during the authentication process
               print("Error: $error");
             });
