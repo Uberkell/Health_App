@@ -236,22 +236,23 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState!.validate()) {
                   String message;
                   try {
-                    // Get a reference to the `food` collection
-                    final collection = FirebaseFirestore.instance
-                        .collection('Users')
-                        .doc(FirebaseAuth.instance.currentUser?.uid)
-                        .collection(todayDate())
-                        .doc(nameController.text);
+                    final usersCollection = FirebaseFirestore.instance.collection('Users');
+                    final userId = FirebaseAuth.instance.currentUser?.uid;
+                    final userDocRef = usersCollection.doc(userId);
+                    final dateEntry = todayDate();
+                    final userDateCollection = userDocRef.collection('Dates').doc(dateEntry);
+                    final foodCollection = userDateCollection.collection('Food_and_Water');
+                    final foodItem =foodCollection.doc(nameController.text);
+
 
                     // Write the server's timestamp and the user's feedback
-                    await collection.set({
+                    await foodItem.set({
                       'calories': calsController.text,
                       'protein': proteinController.text,
                       'sodium': sodiumController.text,
                       'fruit': fruitController.text,
                       'vegetables': vegController.text,
                     });
-
                     message = 'Entry sent successfully';
                   } catch (e) {
                     message = 'Error when sending entry';
