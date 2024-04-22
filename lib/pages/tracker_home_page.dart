@@ -95,6 +95,9 @@ class TrackerHomePage extends StatelessWidget {
       label: const Text("See Past History"),
     );
 
+    String curGoal = "Calories";
+    final goalController = TextEditingController();
+    List<String> diffGoals = ["Calories", "Protein", "Vegetables", "Fruit", "Sodium"];
     ElevatedButton setGoal = ElevatedButton(
       onPressed: () {
         showDialog(context: context,
@@ -106,16 +109,31 @@ class TrackerHomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Form(
                     child: Column(
-                        children: [
-                          DropdownButton(
-                              value: Text("Select") ,
-                              items: [
-                                DropdownMenuItem(child: Text("Worm"), value: "One",),
-                                DropdownMenuItem(child: Text("Catepillar"), value: "Two",),
-                                DropdownMenuItem(child: Text("Cacoon"), value: "Three",),
-                                DropdownMenuItem(child: Text("Butterfly"), value: "Four",),
-                  ],
-                          onChanged: null),
+                        children: [Row(children: [
+                          DropdownButton<String>(
+                            value: curGoal,
+                            onChanged: (String? newValue) {
+                              curGoal = newValue!;
+                            },
+                            items:  diffGoals.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                          Expanded(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the new goal';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(label: Center(child: Text("New Goal"))),
+                                keyboardType: TextInputType.number,
+                                controller: goalController,
+                              )),]),
                           ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(Colors.green),
@@ -147,7 +165,7 @@ class TrackerHomePage extends StatelessWidget {
       body: Stack(
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [addFood, addWater]), // Need addFood, addWater, and setGoalseeHistory
+              children: [addFood, addWater, setGoal]), // Need addFood, addWater, and setGoalseeHistory
         ]
       ),
       floatingActionButton: seeHistory,
