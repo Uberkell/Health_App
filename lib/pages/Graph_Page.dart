@@ -38,7 +38,7 @@ class LineChartState extends State<TheLineChart> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('dates').snapshots(),
+      stream: _firestore.collection('Dates').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return CircularProgressIndicator();
