@@ -56,8 +56,15 @@ class TrackerHomePage extends StatelessWidget {
                               onPressed: () async {
                                 String message;
                                 try {
-                                  final collection = FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser?.uid).collection(todayDate()).doc("water");
-                                  await collection.set({
+                                  //final collection = FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser?.uid).collection(todayDate()).doc("water");
+                                  final usersCollection = FirebaseFirestore.instance.collection('Users');
+                                  final userId = FirebaseAuth.instance.currentUser?.uid;
+                                  final userDocRef = usersCollection.doc(userId);
+                                  final dateEntry = todayDate();
+                                  final userDateCollection = userDocRef.collection('Dates').doc(dateEntry);
+                                  final foodCollection = userDateCollection.collection('Food_and_Water');
+                                  final foodItem =foodCollection.doc('water');
+                                  await foodItem.set({
                                     'waterDrank': waterController.text,
                                     'units': unitController.text,
                                   }
