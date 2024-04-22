@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphTest extends StatelessWidget {
   GraphTest({Key? key}) : super(key: key);
-
   @override
   GraphTest createState() => GraphTest();
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Syncfusion Line Chart Test',
+      title: 'History Graph',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Syncfusion Line Chart Test'),
+          title: Text('History Graph'),
         ),
         body: Center(
           child: Container(
