@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="int_to_win_it"
+        android:label="Eat Right"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
