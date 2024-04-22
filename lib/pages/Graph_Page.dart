@@ -18,22 +18,7 @@ class GraphTest extends StatelessWidget {
         body: Center(
           child: Container(
             height: 300,
-            child: SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              series: <LineSeries<CalorieData, String>>[
-                LineSeries<CalorieData, String>(
-                  dataSource: <CalorieData>[
-                    CalorieData('Jan', 35),
-                    CalorieData('Feb', 28),
-                    CalorieData('Mar', 34),
-                    CalorieData('Apr', 32),
-                    CalorieData('May', 40),
-                  ],
-                  xValueMapper: (CalorieData calories, _) => calories.month,
-                  yValueMapper: (CalorieData calories, _) => calories.calories,
-                ),
-              ],
-            ),
+            child: TheLineChart(),
           ),
         ),
       ),
@@ -41,8 +26,61 @@ class GraphTest extends StatelessWidget {
   }
 }
 
+class TheLineChart extends StatefulWidget {
+  @override
+  LineChartState createState() => LineChartState();
+}
+
+
+class LineChartState extends State<TheLineChart> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore.collection('dates').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        }
+
+        List<CalorieData> data = [];
+        snapshot.data!.docs.forEach((doc) {
+          CollectionReference caloriesCollection = doc.reference.collection('calories');
+          caloriesCollection.get().then((caloriesSnapshot) {
+            double totalCalories = 0.0;
+            caloriesSnapshot.docs.forEach((caloriesDoc) {
+              totalCalories += caloriesDoc['calories'];
+            });
+
+            String day = doc.id.substring(0, 2);
+            String month = doc.id.substring(3, 5);
+            String year = doc.id.substring(6);
+
+            String label = '$day/$month/$year';
+
+            data.add(CalorieData(label, totalCalories));
+            setState(() {});
+          });
+        });
+
+        return SfCartesianChart(
+          primaryXAxis: CategoryAxis(),
+          series: <LineSeries<CalorieData, String>>[
+            LineSeries<CalorieData, String>(
+              dataSource: data,
+              xValueMapper: (CalorieData calories, _) => calories.date,
+              yValueMapper: (CalorieData calories, _) => calories.calories,
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 class CalorieData {
-  CalorieData(this.month, this.calories);
-  final String month;
+  CalorieData(this.date, this.calories);
+  final String date;
   final double calories;
 }
