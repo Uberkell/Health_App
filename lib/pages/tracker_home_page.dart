@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:int_to_win_it/pages/Graph_Page.dart';
 import 'package:int_to_win_it/pages/tracker_new_entry_page.dart';
 import 'package:int_to_win_it/pages/tracker_history_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -99,7 +100,16 @@ class TrackerHomePage extends StatelessWidget {
       },
       backgroundColor: Colors.green,
       foregroundColor: Colors.white,
-      label: const Text("See Past History"),
+      label: const Text("Past History"),
+    );
+
+    FloatingActionButton seeGraph = FloatingActionButton.extended(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => GraphTest()));
+      },
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      label: const Text("See Graph"),
     );
 
     String curGoal = "Calories";
@@ -169,13 +179,33 @@ class TrackerHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("What did you eat today?"),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [addFood, addWater, setGoal]), // Need addFood, addWater, and setGoalseeHistory
-        ]
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [addFood, addWater, setGoal],
+          ),
+          Expanded(child: Container()), // Placeholder to push other content to the bottom
+        ],
       ),
-      floatingActionButton: seeHistory,
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30.0, bottom: 16.0),
+              child: seeHistory,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only( right: 3.0, bottom: 16.0),
+              child: seeGraph,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
