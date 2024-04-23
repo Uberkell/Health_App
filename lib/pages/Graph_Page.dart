@@ -35,39 +35,39 @@ class LineChartState extends State<TheLineChart> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('Dates').snapshots(),
+      stream: _firestore.collection('Dates').snapshots(), // Changed collection name to 'Dates'
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return CircularProgressIndicator();
         }
 
-        List<CalorieData> data = [];
+        List<CaloriesData> data = [];
         snapshot.data!.docs.forEach((doc) {
-          CollectionReference caloriesCollection = doc.reference.collection('calories');
-          caloriesCollection.get().then((caloriesSnapshot) {
+          String date = doc.id;
+          print('Date: $date');
+
+          CollectionReference foodAndWaterCollection = doc.reference.collection('Food_and_Water');
+          foodAndWaterCollection.get().then((foodAndWaterSnapshot) {
             double totalCalories = 0.0;
-            caloriesSnapshot.docs.forEach((caloriesDoc) {
-              totalCalories += caloriesDoc['calories'];
+            foodAndWaterSnapshot.docs.forEach((foodAndWaterDoc) {
+              // Convert the string calories to double
+              double calories = double.parse(foodAndWaterDoc['calories']);
+              totalCalories += calories;
             });
+            print('Total Calories for $date: $totalCalories');
 
-            String day = doc.id.substring(0, 2);
-            String month = doc.id.substring(3, 5);
-            String year = doc.id.substring(6);
-
-            String label = '$day/$month/$year';
-
-            data.add(CalorieData(label, totalCalories));
+            data.add(CaloriesData(date, totalCalories));
             setState(() {});
           });
         });
 
         return SfCartesianChart(
           primaryXAxis: CategoryAxis(),
-          series: <LineSeries<CalorieData, String>>[
-            LineSeries<CalorieData, String>(
+          series: <LineSeries<CaloriesData, String>>[
+            LineSeries<CaloriesData, String>(
               dataSource: data,
-              xValueMapper: (CalorieData calories, _) => calories.date,
-              yValueMapper: (CalorieData calories, _) => calories.calories,
+              xValueMapper: (CaloriesData calories, _) => calories.date,
+              yValueMapper: (CaloriesData calories, _) => calories.calories,
             ),
           ],
         );
@@ -76,8 +76,8 @@ class LineChartState extends State<TheLineChart> {
   }
 }
 
-class CalorieData {
-  CalorieData(this.date, this.calories);
+class CaloriesData {
+  CaloriesData(this.date, this.calories);
   final String date;
   final double calories;
 }

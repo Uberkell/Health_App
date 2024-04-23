@@ -95,6 +95,7 @@ class TrackerHomePage extends StatelessWidget {
     );
 
     FloatingActionButton seeHistory = FloatingActionButton.extended(
+      heroTag: "btn1",
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => TrackerHistoryPage()));
       },
@@ -104,6 +105,7 @@ class TrackerHomePage extends StatelessWidget {
     );
 
     FloatingActionButton seeGraph = FloatingActionButton.extended(
+      heroTag: "btn2",
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => GraphTest()));
       },
@@ -195,6 +197,7 @@ class TrackerHomePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 30.0, bottom: 16.0),
               child: seeHistory,
+
             ),
           ),
           Align(
