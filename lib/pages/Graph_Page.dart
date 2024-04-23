@@ -9,9 +9,7 @@ class GraphTest extends StatelessWidget {
   GraphTest createState() => GraphTest();
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'History Graph',
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('History Graph'),
         ),
@@ -21,7 +19,6 @@ class GraphTest extends StatelessWidget {
             child: TheLineChart(),
           ),
         ),
-      ),
     );
   }
 }
