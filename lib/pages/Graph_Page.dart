@@ -1,68 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class GraphTest extends StatelessWidget {
   GraphTest({Key? key}) : super(key: key);
   @override
-  GraphTest createState() => GraphTest();
-
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('History Graph'),
+      appBar: AppBar(
+        title: Text('History Graph'),
+      ),
+      body: Center(
+        child: Container(
+          height: 300,
+          child: FirebaseLineChart(),
         ),
-        body: Center(
-          child: Container(
-            height: 300,
-            child: TheLineChart(),
-          ),
-        ),
+      ),
     );
   }
 }
 
-class TheLineChart extends StatefulWidget {
+class FirebaseLineChart extends StatefulWidget {
   @override
-  LineChartState createState() => LineChartState();
+  _FirebaseLineChartState createState() => _FirebaseLineChartState();
 }
 
-
-class LineChartState extends State<TheLineChart> {
+class _FirebaseLineChartState extends State<FirebaseLineChart> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String? uid;
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveUID();
+  }
+
+  void retrieveUID() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        uid = user.uid;
+      });
+    } else {
+      setState(() {
+        uid = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    DateTime today = DateTime.now();
+    String dateStr = "${today.month}-${today.day}-${today.year}";
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('Dates').snapshots(), // Changed collection name to 'Dates'
+
+      stream: _firestore.collection('Users').doc(uid).collection('Dates').doc(dateStr).collection('Food_and_Water').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+        if (!snapshot.hasData || uid == null) {
           return CircularProgressIndicator();
         }
 
         List<CaloriesData> data = [];
         snapshot.data!.docs.forEach((doc) {
           String date = doc.id;
-          print('Date: $date');
-
-          CollectionReference foodAndWaterCollection = doc.reference.collection('Food_and_Water');
-          foodAndWaterCollection.get().then((foodAndWaterSnapshot) {
-            double totalCalories = 0.0;
-            foodAndWaterSnapshot.docs.forEach((foodAndWaterDoc) {
-              // Convert the string calories to double
-              double calories = double.parse(foodAndWaterDoc['calories']);
-              totalCalories += calories;
-            });
-            print('Total Calories for $date: $totalCalories');
-
-            data.add(CaloriesData(date, totalCalories));
-            setState(() {});
+          double totalCalories = 0.0;
+          (doc.data() as Map<String, dynamic>).forEach((key, value) {
+            if (key != 'date') {
+              totalCalories += double.parse(value.toString());
+            }
           });
+          data.add(CaloriesData(date, totalCalories));
         });
 
         return SfCartesianChart(
-          primaryXAxis: CategoryAxis(),
+          primaryXAxis: CategoryAxis(title: AxisTitle(text: 'Dates')),
+          primaryYAxis: NumericAxis(title: AxisTitle(text: 'Total Calories')),
           series: <LineSeries<CaloriesData, String>>[
             LineSeries<CaloriesData, String>(
               dataSource: data,
