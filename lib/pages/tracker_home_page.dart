@@ -3,6 +3,7 @@ import 'package:int_to_win_it/pages/tracker_new_entry_page.dart';
 import 'package:int_to_win_it/pages/tracker_history_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:int_to_win_it/pages/Graph_Page.dart';
 
 class TrackerHomePage extends StatelessWidget {
   const TrackerHomePage({Key? key}) : super(key: key);
@@ -27,8 +28,6 @@ class UpdatingTrackerHomePage extends StatefulWidget {
 }
 
 class UpdatedState extends State<UpdatingTrackerHomePage> {
-  // Create a global key that uniquely identifies the Form widget
-  final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
 
   @override
@@ -83,12 +82,12 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
                               onPressed: () async {
                                 String message;
                                 try {
-              final usersCollection = FirebaseFirestore.instance.collection('Users');
-              final userId = FirebaseAuth.instance.currentUser?.uid;
-              final userDocRef = usersCollection.doc(userId);
-              final dateEntry = todayDate();
-              final userDateCollection = userDocRef.collection('Dates').doc(dateEntry);
-              final foodCollection = userDateCollection.collection('Food_and_Water');
+                                  final usersCollection = FirebaseFirestore.instance.collection('Users');
+                                  final userId = FirebaseAuth.instance.currentUser?.uid;
+                                  final userDocRef = usersCollection.doc(userId);
+                                  final dateEntry = todayDate();
+                                  final userDateCollection = userDocRef.collection('Dates').doc(dateEntry);
+                                  final foodCollection = userDateCollection.collection('Food_and_Water');
                                   final collection = foodCollection.doc("water $waterIndex");
                                   await collection.set({
                                     'waterDrank': waterController.text,
@@ -140,7 +139,6 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
       backgroundColor: Colors.green,
       foregroundColor: Colors.white,
       label: const Text("See Graph"),
-      label: const Text("See Past History"),
     );
 
     String curGoal = "Calories";
@@ -242,26 +240,6 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
         color: Colors.green);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("What did you eat today?"),
-      ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [addFood, addWater, setGoal],
-          ),
-          Expanded(child: Container()), // Placeholder to push other content to the bottom
-        ],
-      ),
-      floatingActionButton: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30.0, bottom: 16.0),
-              child: seeHistory,
-
       body: Stack(
           children: [
             ListView( children: <Widget>[
