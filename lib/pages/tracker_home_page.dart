@@ -30,6 +30,8 @@ class UpdatingTrackerHomePage extends StatefulWidget {
 class UpdatedState extends State<UpdatingTrackerHomePage> {
   final nameController = TextEditingController();
 
+  bool hasGoal = false;
+
   @override
   Widget build(BuildContext context) {
     ElevatedButton addFood = ElevatedButton(
@@ -148,6 +150,14 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
     final vegGoalController = TextEditingController();
     final fruitGoalController = TextEditingController();
 
+
+    CircularProgressIndicator calProgress = CircularProgressIndicator();
+    CircularProgressIndicator waterProgress= CircularProgressIndicator();
+    CircularProgressIndicator sodiumProgress = CircularProgressIndicator();
+    CircularProgressIndicator proteinProgress = CircularProgressIndicator();
+    CircularProgressIndicator fruitProgress = CircularProgressIndicator();
+    CircularProgressIndicator vegProgress = CircularProgressIndicator();
+
     ElevatedButton setGoal = ElevatedButton(
       onPressed: () {
         showDialog(context: context,
@@ -259,6 +269,7 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
                                   }
                                   );
                                   message = 'Entry sent successfully';
+                                  hasGoal = true;
                                 } catch (e) {
                                   message = 'Error when sending entry';
                                 }
@@ -284,56 +295,31 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
     );
 
 
+    if(hasGoal) {
+      calProgress = CircularProgressIndicator(
+        value: 400 / 2000,
+        color: Colors.green,);
 
-    /*
-    Future<List<Widget>> getData() async {
-      final userId = FirebaseAuth.instance.currentUser?.uid;
-      QuerySnapshot query = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(userId)
-        .collection("Dates")
-        .doc("4-24-2024")
-        .collection("goals")
-        .get();
-      List<Widget> tempGoals = [];
+      waterProgress = CircularProgressIndicator(
+          value: 8 / 15,
+          color: Colors.green);
 
-      await Future.forEach(query.docs, (doc) async {
-        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      sodiumProgress = CircularProgressIndicator(
+          value: 1400 / 2300,
+          color: Colors.green);
 
-        if(data != null) {
-          var calGoal = data.entries.first.value;
-          var waterGoal = data.entries.elementAt(1).value;
-          var proteinGoal = data.entries.elementAt(2).value;
-          var sodiumGoal = data.entries.elementAt(3).value;
-          var fruitGoal = data.entries.elementAt(4).value;
-          var vegGoal = data.entries.elementAt(5).value;
-        }
-      });
-    } */
+      proteinProgress = CircularProgressIndicator(
+          value: 80 / 100,
+          color: Colors.green);
 
-      CircularProgressIndicator calProgress = CircularProgressIndicator(
-      value: 400/2000,
-    color: Colors.green,);
+      fruitProgress = CircularProgressIndicator(
+          value: 3 / 4,
+          color: Colors.green);
 
-    CircularProgressIndicator waterProgress = CircularProgressIndicator(
-      value: 8/15,
-        color: Colors.green);
-
-    CircularProgressIndicator sodiumProgress = CircularProgressIndicator(
-      value: 1400/2300,
-        color: Colors.green);
-
-    CircularProgressIndicator proteinProgress = CircularProgressIndicator(
-      value: 80/100,
-        color: Colors.green);
-
-    CircularProgressIndicator fruitProgress = CircularProgressIndicator(
-      value: 3/4,
-        color: Colors.green);
-
-    CircularProgressIndicator vegProgress = CircularProgressIndicator(
-      value: 2/4,
-        color: Colors.green);
+      vegProgress = CircularProgressIndicator(
+          value: 2 / 4,
+          color: Colors.green);
+    }
 
     return Scaffold(
       body: Stack(
