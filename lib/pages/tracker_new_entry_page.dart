@@ -236,17 +236,26 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState!.validate()) {
                   String message;
                   try {
-                    final usersCollection = FirebaseFirestore.instance.collection('Users');
-                    final userId = FirebaseAuth.instance.currentUser?.uid;
-                    final userDocRef = usersCollection.doc(userId);
-                    final dateEntry = todayDate();
-                    final userDateCollection = userDocRef.collection('Dates').doc(dateEntry);
-                    final foodCollection = userDateCollection.collection('Food_and_Water');
-                    final foodItem =foodCollection.doc(nameController.text);
 
+                    final collection1 = FirebaseFirestore.instance
+                        .collection('Users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .collection('Dates')
+                        .doc(todayDate());
 
-                    // Write the server's timestamp and the user's feedback
-                    await foodItem.set({
+                    await collection1.set({
+                      'instantiated': "1",
+                    });
+
+                    final collection2 = FirebaseFirestore.instance
+                        .collection('Users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .collection('Dates')
+                        .doc(todayDate())
+                        .collection('Food_and_Water')
+                        .doc(nameController.text);
+
+                    await collection2.set({
                       'calories': calsController.text,
                       'protein': proteinController.text,
                       'sodium': sodiumController.text,

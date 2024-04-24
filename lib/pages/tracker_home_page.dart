@@ -122,12 +122,24 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
     );
 
     FloatingActionButton seeHistory = FloatingActionButton.extended(
+      heroTag: "btn1",
       onPressed: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => TrackerHistoryPage()));
       },
       backgroundColor: Colors.green,
       foregroundColor: Colors.white,
+      label: const Text("Past History"),
+    );
+
+    FloatingActionButton seeGraph = FloatingActionButton.extended(
+      heroTag: "btn2",
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => GraphTest()));
+      },
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      label: const Text("See Graph"),
       label: const Text("See Past History"),
     );
 
@@ -230,6 +242,26 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
         color: Colors.green);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("What did you eat today?"),
+      ),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [addFood, addWater, setGoal],
+          ),
+          Expanded(child: Container()), // Placeholder to push other content to the bottom
+        ],
+      ),
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30.0, bottom: 16.0),
+              child: seeHistory,
+
       body: Stack(
           children: [
             ListView( children: <Widget>[
