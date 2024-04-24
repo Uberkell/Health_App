@@ -378,10 +378,20 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
                         Text("Fruit"),
                         fruitProgress])),
                 ],),
+
             ),
           ]
+
       )]),
-      floatingActionButton: seeHistory,
+
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          seeHistory,
+          seeGraph,
+        ],
+      ),
+
     );
   }
 }
