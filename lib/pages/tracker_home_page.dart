@@ -141,15 +141,13 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
       label: const Text("See Graph"),
     );
 
-    String curGoal = "Calories";
-    final goalController = TextEditingController();
-    List<String> diffGoals = [
-      "Calories",
-      "Protein",
-      "Vegetables",
-      "Fruit",
-      "Sodium"
-    ];
+    final calGoalController = TextEditingController();
+    final proteinGoalController = TextEditingController();
+    final sodiumGoalController = TextEditingController();
+    final waterGoalController = TextEditingController();
+    final vegGoalController = TextEditingController();
+    final fruitGoalController = TextEditingController();
+
     ElevatedButton setGoal = ElevatedButton(
       onPressed: () {
         showDialog(context: context,
@@ -161,34 +159,79 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Form(
                     child: Column(
-                        children: [Row(children: [
-                          DropdownButton<String>(
-                            value: curGoal,
-                            onChanged: (String? newValue) {
-                              curGoal = newValue!;
-                            },
-                            items: diffGoals.map<DropdownMenuItem<String>>((
-                                String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                          Expanded(
-                              child: TextFormField(
+                        children: [
+                          TextFormField(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter the new goal';
+                                    return 'Please enter the new calorie goal';
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                    label: Center(child: Text("New Goal"))),
+                                    label: Center(child: Text("New Calorie Goal"))),
                                 keyboardType: TextInputType.number,
-                                controller: goalController,
-                              )),
-                        ]),
+                                controller: calGoalController,
+                              ),
+                          TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the new calorie goal';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    label: Center(child: Text("New Water Goal in Cups"))),
+                                keyboardType: TextInputType.number,
+                                controller: waterGoalController,
+                              ),
+                          TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the new protein goal in grams';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    label: Center(child: Text("New Protein Goal in Grams"))),
+                                keyboardType: TextInputType.number,
+                                controller: proteinGoalController,
+                              ),
+                          TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the new sodium goal in milligram';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    label: Center(child: Text("New Sodium Goal in Mg"))),
+                                keyboardType: TextInputType.number,
+                                controller: sodiumGoalController,
+                              ),
+                    TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the new vegetables goal in servings';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    label: Center(child: Text("New Vegetables Goal in Servings"))),
+                                keyboardType: TextInputType.number,
+                                controller: vegGoalController,
+                              ),
+                          TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the new fruit goal in servings';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    label: Center(child: Text("New Fruit Goal in Servings"))),
+                                keyboardType: TextInputType.number,
+                                controller: fruitGoalController,
+                              ),
                           ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
@@ -196,7 +239,32 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
                                 foregroundColor: MaterialStateProperty.all(
                                     Colors.white),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
+                                String message;
+                                try {
+                                  final usersCollection = FirebaseFirestore.instance.collection('Users');
+                                  final userId = FirebaseAuth.instance.currentUser?.uid;
+                                  final userDocRef = usersCollection.doc(userId);
+                                  final dateEntry = todayDate();
+                                  final userDateCollection = userDocRef.collection('Dates').doc(dateEntry);
+                                  final foodCollection = userDateCollection.collection('Food_and_Water');
+                                  final collection = foodCollection.doc("Set new goal");
+                                  await collection.set({
+                                    'Calorie Goal': calGoalController.text,
+                                    'Water Goal': waterGoalController.text,
+                                    'Protein Goal': proteinGoalController.text,
+                                    'Sodium Goal': sodiumGoalController.text,
+                                    'Fruit Goal': fruitGoalController.text,
+                                    'Vegetable Goal': vegGoalController.text,
+                                  }
+                                  );
+                                  message = 'Entry sent successfully';
+                                } catch (e) {
+                                  message = 'Error when sending entry';
+                                }
+                                // Show a snackbar with the result
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(message)));
                                 Navigator.pop(context);
                               },
                               child: const Text("Enter")),
@@ -215,28 +283,56 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
       child: const Text("Set Goals"),
     );
 
-    CircularProgressIndicator calProgress = CircularProgressIndicator(
-      value: 10/100,
+
+
+    /*
+    Future<List<Widget>> getData() async {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userId)
+        .collection("Dates")
+        .doc("4-24-2024")
+        .collection("goals")
+        .get();
+      List<Widget> tempGoals = [];
+
+      await Future.forEach(query.docs, (doc) async {
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+        if(data != null) {
+          var calGoal = data.entries.first.value;
+          var waterGoal = data.entries.elementAt(1).value;
+          var proteinGoal = data.entries.elementAt(2).value;
+          var sodiumGoal = data.entries.elementAt(3).value;
+          var fruitGoal = data.entries.elementAt(4).value;
+          var vegGoal = data.entries.elementAt(5).value;
+        }
+      });
+    } */
+
+      CircularProgressIndicator calProgress = CircularProgressIndicator(
+      value: 400/2000,
     color: Colors.green,);
 
     CircularProgressIndicator waterProgress = CircularProgressIndicator(
-      value: 20/100,
+      value: 8/15,
         color: Colors.green);
 
     CircularProgressIndicator sodiumProgress = CircularProgressIndicator(
-      value: 30/100,
+      value: 1400/2300,
         color: Colors.green);
 
     CircularProgressIndicator proteinProgress = CircularProgressIndicator(
-      value: 40/100,
+      value: 80/100,
         color: Colors.green);
 
     CircularProgressIndicator fruitProgress = CircularProgressIndicator(
-      value: 50/100,
+      value: 3/4,
         color: Colors.green);
 
     CircularProgressIndicator vegProgress = CircularProgressIndicator(
-      value: 60/100,
+      value: 2/4,
         color: Colors.green);
 
     return Scaffold(
@@ -254,7 +350,8 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
                       scale: 2,
                       child: Column(children: [
                         Text("Calories"),
-                        calProgress])),
+                        calProgress
+                        ])),
                   Transform.scale(
                       scale: 2,
                       child: Column(children: [
