@@ -40,8 +40,9 @@ class UpdatingTrackerHistoryPageState extends State<UpdatingTrackerHistoryPage> 
 
     List<Widget> food = [];
 
-    await Future.forEach(query.docs, (days) async{
+    //await Future.forEach(query.docs, (days) async{
 
+      //var dayString = days.id.toString();
       QuerySnapshot queryQuestion = await FirebaseFirestore.instance
           .collection('Users')
           .doc(userid)
@@ -51,6 +52,7 @@ class UpdatingTrackerHistoryPageState extends State<UpdatingTrackerHistoryPage> 
           .get();
 
         List<Widget> tempfood = [];
+
         await Future.forEach(queryQuestion.docs, (doc) async {
           Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
 
@@ -63,7 +65,7 @@ class UpdatingTrackerHistoryPageState extends State<UpdatingTrackerHistoryPage> 
 
             tempfood.add(FoodData(
                 doc.id, //food name
-                days.id, // date
+                displayPair("4-24-2024", ""), // date
                 displayPair(tempSodium.key, tempSodium.value),
                 displayPair(tempprotein.key, tempprotein.value),
                 displayPair(tempfruit.key, tempfruit.value),
@@ -73,17 +75,15 @@ class UpdatingTrackerHistoryPageState extends State<UpdatingTrackerHistoryPage> 
             setState(() {
 
             });
-          } else if (data != null && data.length < 3){
+          } else if (data != null && 1< data.length && data.length < 4){
             var tempWater = data.entries.first;
-            food.add(WaterData(doc.id, days.id, displayPair("Water drank", "${tempWater.value} cups")));
+            food.add(WaterData(doc.id, "4-24-2024", displayPair("Water drank", "${tempWater.value} cups")));
           }
         });
 
         for (var entry in tempfood) {
           food.add(entry);
          }
-
-    });
     return food;
   }
 
@@ -98,7 +98,7 @@ class UpdatingTrackerHistoryPageState extends State<UpdatingTrackerHistoryPage> 
         future: getData(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
           return SingleChildScrollView(
             child: Column(
@@ -116,10 +116,17 @@ class FoodData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
+        padding: const EdgeInsets.all(8.0),
+        color: Colors.green,
+        margin: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(name),
+              Text(name, style: Theme.of(context)
+            .textTheme
+            .headlineMedium!
+            .copyWith(color: Colors.white)),
               Text(date),
               Text(cals),
               Text(protein),
@@ -138,9 +145,16 @@ class WaterData extends FoodData {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: const EdgeInsets.all(15.0),
+        color: Colors.green,
+        margin: EdgeInsets.all(20),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text("water", style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(color: Colors.white)),
               Text(date),
               Text(amount.toString())
             ]));
@@ -149,4 +163,23 @@ class WaterData extends FoodData {
   final String amount, water;
   @override
   final String date;
+}
+
+class TitleWidget extends FoodData {
+  TitleWidget(this.title) : super(title, '', '', '', '', '', '');
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(15.0),
+    color: Colors.green,
+    margin: EdgeInsets.all(20),
+    child: Text(title, style: Theme.of(context)
+        .textTheme
+        .headlineMedium!
+        .copyWith(color: Colors.white))
+    );
+  }
+
+  final String title;
 }
