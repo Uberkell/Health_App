@@ -295,7 +295,7 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
     );
 
 
-    if(hasGoal) {
+    //if(hasGoal) { //doesn't work
       calProgress = CircularProgressIndicator(
         value: 400 / 2000,
         color: Colors.green,);
@@ -319,7 +319,7 @@ class UpdatedState extends State<UpdatingTrackerHomePage> {
       vegProgress = CircularProgressIndicator(
           value: 2 / 4,
           color: Colors.green);
-    }
+
 
     return Scaffold(
       body: Stack(
