@@ -1,16 +1,5 @@
-# int_to_win_it
+# Health App
 
-A new Flutter project.
+A application that lets a user create an account to accsess tips, videos, recipes, and allows the user to record their food and liquid intake.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This application was worked on by me and four other classmates in a agile scrum development cycle. I was responsible for setting up and managing the firebase database, creating the create account and login/logout padge and features, general ui work for homescreen and main padge, laided ground work for graphing feature, helped classmate with the data entry padge.
